@@ -1,0 +1,9 @@
+{
+    "identifier": "gwynethllewelyn.GoLanguageDefinitionforNova",
+    "name": "Go",
+    "vendor": "Gwyneth Llewelyn",
+    "description": "Go Language Definition for Nova",
+    "version": "0.0.1",
+    "categories": ["languages"],
+    "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues"
+}
