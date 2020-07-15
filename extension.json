@@ -9,5 +9,10 @@
   "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
   "license": "MIT",
   "main": "main.js",
-  "activationEvents": ["onLanguage:go", "onWorkspaceContains:*.go"]
+  "activationEvents": ["onLanguage:go", "onWorkspaceContains:*.go"],
+  "entitlements": {
+    "process": true,
+    "requests": false,
+    "filesystem": "readonly"
+  }
 }
