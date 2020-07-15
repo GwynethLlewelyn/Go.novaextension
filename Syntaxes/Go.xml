@@ -2,7 +2,7 @@
 <syntax name="go">
 	<meta>
 		<name>Go</name>
-		<type>script</type>
+		<type>structured</type>
 		<preferred-file-extension>go</preferred-file-extension>
 	</meta>
 
@@ -40,14 +40,14 @@
 		<pair open="(" close=")" />
 	</brackets>
 
-	<!-- <autoclosing-pairs>
-	<pair open="{" close="}" skip="string,comment" />
-	<pair open="[" close="]" skip="string,comment" />
-	<pair open="(" close=")" skip="string,comment" />
-	<pair open="&apos;" close="&apos;" skip="string,comment" />
-	<pair open="&quot;" close="&quot;" skip="string" />
-	<pair open="`" close="`" skip="string,comment" />
-</autoclosing-pairs> -->
+	<autoclosing-pairs>
+		<pair open="{" close="}" skip="string,comment" />
+		<pair open="[" close="]" skip="string,comment" />
+		<pair open="(" close=")" skip="string,comment" />
+		<pair open="&apos;" close="&apos;" skip="string,comment" />
+		<pair open="&quot;" close="&quot;" skip="string" />
+		<pair open="`" close="`" skip="string,comment" />
+	</autoclosing-pairs>
 
 <surrounding-pairs>
 	<pair open="{" close="}" />
