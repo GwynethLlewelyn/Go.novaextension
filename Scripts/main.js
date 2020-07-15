@@ -1,5 +1,5 @@
 var serverOptions = {
-  path: "./gopls",
+  path: "/Users/gwyneth/Developer/Go.novaextension/Scripts/gopls",
   type: "stdio",
 };
 var clientOptions = {
