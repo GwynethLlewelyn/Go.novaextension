@@ -4,7 +4,6 @@
 		<name>Go</name>
 		<type>script</type>
 		<preferred-file-extension>go</preferred-file-extension>
-		<scriptable shebang="#!/usr/bin/env $GOPATH/bin/" />
 	</meta>
 
 	<detectors>
