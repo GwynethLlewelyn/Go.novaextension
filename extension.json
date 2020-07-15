@@ -1,5 +1,5 @@
 {
-  "identifier": "gwynethllewelyn.GoLanguageDefinitionforNova",
+  "identifier": "gwynethllewelyn.Go",
   "name": "Go",
   "vendor": "Gwyneth Llewelyn",
   "description": "Go Language Definition for Nova",
@@ -9,5 +9,12 @@
   "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
   "homepage": "https://gwynethllewelyn.net",
   "keywords": ["go", "golang"],
-  "license": "MIT"
+  "license": "MIT",
+  "main": "main.js",
+  "activationEvents": ["onLanguage:go", "onWorkspaceContains:*.go"],
+  "entitlements": {
+    "process": true,
+    "requests": false,
+    "filesystem": "readonly"
+  }
 }
