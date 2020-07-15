@@ -6,12 +6,12 @@
 		<preferred-file-extension>go</preferred-file-extension>
 		<scriptable shebang="#!/usr/bin/env $GOPATH/bin/" />
 	</meta>
-	
+
 	<detectors>
 		<extension priority="1.0">go</extension>
 		<match-content lines="5" priority="1.0">^(//)?\s*vi:\s*(syntax|ft)=(go)\b</match-content>
 	</detectors>
-	
+
 	<indentation>
 		<increase>
 			<expression>(\{[^}\"']*$)|(\[[^\]\"']*$)|(\([^)\"']*$)</expression>
@@ -20,7 +20,7 @@
 			<expression>^\s*(\s*/\*.*\*/\s*)*[\}\]\)\\]</expression>
 		</decrease>
 	</indentation>
-	
+
 	<comments>
 		<single>
 			<expression>//</expression>
@@ -34,13 +34,13 @@
 			</ends-with>
 		</multiline>
 	</comments>
-	
+
 	<brackets>
 		<pair open="{" close="}" />
 		<pair open="[" close="]" />
 		<pair open="(" close=")" />
 	</brackets>
-	
+
 	<!-- <autoclosing-pairs>
 	<pair open="{" close="}" skip="string,comment" />
 	<pair open="[" close="]" skip="string,comment" />
@@ -97,7 +97,7 @@
 			</ends-with>
 		</scope>
 	</collection>
-	
+
 	<!-- Blocks -->
 	<collection name="blocks">
 		<scope name="go.block">
@@ -117,7 +117,7 @@
 			</subscopes>
 		</scope>
 	</collection>
-	
+
 	<!-- Definitions -->
 	<collection name="definitions">
 		<!-- Classes -->
@@ -167,7 +167,7 @@
 				</scope>
 			</subscopes>
 		</scope>
-		
+
 		<!-- Functions -->
 		<scope name="go.definition.function">
 			<symbol type="function">
@@ -190,7 +190,7 @@
 				<include syntax="self" collection="function-blocks" />
 			</subscopes>
 		</scope>
-		
+
 		<!-- Anonymous Functions -->
 		<scope name="go.definition.function.anonymous">
 			<symbol type="function" anonymous="true">
@@ -212,7 +212,7 @@
 				<include syntax="self" collection="function-blocks" />
 			</subscopes>
 		</scope>
-		
+
 		<!-- Arrow Functions -->
 		<scope name="go.definition.function.arrow">
 			<symbol type="function" scope="local" anonymous="true">
@@ -240,7 +240,7 @@
 				<include syntax="self" collection="function-blocks" />
 			</subscopes>
 		</scope>
-		
+
 		<!-- Inline Arrow Functions -->
 		<scope name="go.definition.function.arrow.inline">
 			<symbol type="function" scope="local" anonymous="true">
@@ -271,7 +271,7 @@
 				<include syntax="self" collection="syntax" />
 			</subscopes>
 		</scope>
-		
+
 		<scope name="go.definition.property">
 			<symbol type="property" scope="private" />
 			<expression>(this)(\.)(\#?[a-zA-Z_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s*(\=)</expression>
@@ -280,7 +280,7 @@
 			<capture number="3" name="go.identifier.property.name" />
 			<capture number="4" name="go.operator" />
 		</scope>
-		
+
 		<scope name="go.definition.variable">
 			<symbol type="variable" scope="local" />
 			<expression>(?&lt;!\.)([a-zA-Z_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s*(\=)</expression>
@@ -288,7 +288,7 @@
 			<capture number="2" name="go.operator" />
 		</scope>
 	</collection>
-	
+
 	<!-- Function Blocks -->
 	<collection name="function-blocks">
 		<scope name="go.block">
@@ -308,7 +308,7 @@
 			</subscopes>
 		</scope>
 	</collection>
-	
+
 	<!-- Keywords -->
 	<collection name="keywords">
 		<scope name="go.keyword">
@@ -341,7 +341,7 @@
 			</strings>
 		</scope>
 	</collection>
-	
+
 	<!-- Values -->
 	<collection name="values">
 		<include syntax="self" collection="strings" />
@@ -368,7 +368,7 @@
 			<expression>\b\-?(?:\d+(?:\.\d*)?|(?:\.\d+))\b</expression>
 		</scope>
 	</collection>
-	
+
 	<!-- Strings -->
 	<collection name="strings">
 		<scope name="go.string.backtick-quoted">
@@ -438,7 +438,7 @@
 			</subscopes>
 		</scope>
 	</collection>
-	
+
 	<!-- Identifiers -->
 	<collection name="identifiers">
 		<scope name="go.identifier.core.global">
@@ -483,7 +483,12 @@
 				<string>recover</string>
 				<string>Alignof</string>
 				<string>Offsetof</string>
-				<string>Sizeof</string>		
+				<string>Sizeof</string>
+			</strings>
+		</scope>
+		<scope name="go.identifier.blank">
+			<strings>
+				<string>_</string>
 			</strings>
 		</scope>
 		<scope name="go.identifier.standard-packages">
@@ -593,7 +598,7 @@
 			<expression>\b[a-zA-Z_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*\b</expression>
 		</scope>
 	</collection>
-	
+
 	<!-- Syntax -->
 	<collection name="syntax">
 		<scope name="go.bracket.block.start">
