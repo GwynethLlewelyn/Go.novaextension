@@ -1,3 +1,5 @@
+![Go.novaextension logo](gopher-nova-small-logo.png)
+
 # Go Language Definition for Nova
 
 A quick &amp; dirty Go language definition for the (upcoming) [Panic Nova](https://panic.com/nova) editor.
