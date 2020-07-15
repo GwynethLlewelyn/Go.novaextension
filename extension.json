@@ -5,8 +5,14 @@
   "description": "Go Language Definition for Nova",
   "version": "0.0.2",
   "categories": ["languages"],
-  "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues",
-  "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
+  "bugs": {
+    "url": "https://github.com/GwynethLlewelyn/Go.novaextension/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GwynethLlewelyn/Go.novaextension"
+  },
+  "keywords": ["go", "golang"],
   "license": "MIT",
   "main": "main.js",
   "activationEvents": ["onLanguage:go", "onWorkspaceContains:*.go"],

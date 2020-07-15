@@ -1,5 +1,5 @@
 var serverOptions = {
-  path: "Scripts/gopls",
+  path: "gopls",
 };
 var clientOptions = {
   syntaxes: ["go"],
