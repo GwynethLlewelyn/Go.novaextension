@@ -12,4 +12,4 @@ var client = new LanguageClient(
   clientOptions
 );
 
-client.start();
+// client.start();
