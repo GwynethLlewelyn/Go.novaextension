@@ -1,6 +1,10 @@
 # Go Language Definition for Nova
 
-A quick &amp; dirty Go language template for the (upcoming) [Panic Nova](https://panic.com/nova) editor.
+A quick &amp; dirty Go language definition for the (upcoming) [Panic Nova](https://panic.com/nova) editor.
+
+Tries to use the official (Google-supported) [Go Language Server](https://github.com/golang/tools/blob/master/gopls/README.md). It's still in Beta, but, these days, what isn't?
+
+I've just provided the bare minimum to encapsulate the Go LSP (`gopls`) inside a Nova extension. I'm not in the least sure of what I've done!
 
 ## GPG Fingerprint
 
