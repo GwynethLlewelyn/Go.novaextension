@@ -6,5 +6,7 @@
   "version": "0.0.1",
   "categories": ["languages"],
   "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues",
+  "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
+  "license": "MIT",
   "main": "main.js"
 }
