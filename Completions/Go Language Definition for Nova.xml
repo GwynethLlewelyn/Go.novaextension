@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completions>
     <provider>
-        <selector>mylang</selector>
+        <selector>go</selector>
         <expression>\b[a-zA-Z0-9-_]*</expression>
-        <set>mylang.entities</set>
+        <set>go.entities</set>
     </provider>
-    
+
     <!-- Entities -->
-    <set name="mylang.entities">
+    <set name="go.entities">
 		<completion string="&quot;" />
 		<completion string="&amp;" />
 		<completion string="&apos;" />
