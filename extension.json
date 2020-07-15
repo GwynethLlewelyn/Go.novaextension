@@ -3,7 +3,7 @@
   "name": "Go",
   "vendor": "Gwyneth Llewelyn",
   "description": "Go Language Definition for Nova",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "categories": ["languages"],
   "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues",
   "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
