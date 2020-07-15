@@ -1,11 +1,12 @@
 var serverOptions = {
-  path: "gopls",
+  path: "./gopls",
+  type: "stdio",
 };
 var clientOptions = {
   syntaxes: ["go"],
 };
 var client = new LanguageClient(
-  "go",
+  "Go",
   "Go (lang) Language Server",
   serverOptions,
   clientOptions
