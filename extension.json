@@ -8,12 +8,5 @@
   "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues",
   "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
   "keywords": ["go", "golang"],
-  "license": "MIT",
-  "main": "main.js",
-  "activationEvents": ["onLanguage:go", "onWorkspaceContains:*.go"],
-  "entitlements": {
-    "process": true,
-    "requests": false,
-    "filesystem": "readonly"
-  }
+  "license": "MIT"
 }
