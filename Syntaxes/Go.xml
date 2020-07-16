@@ -355,7 +355,7 @@
 				<string>false</string>
 			</strings>
 		</scope>
-		<scope name<="go.value.iota">
+		<scope name="go.value.iota">
 			<strings>
 				<string>iota</string>
 			</strings>
@@ -491,7 +491,7 @@
 			</strings>
 		</scope>
 		<scope name="go.identifier.standard-packages">
-			<strings prefix="\"" suffix="\"">
+			<strings prefix="&quot;" suffix="&quot;">
 				<string>adler32</string>
 				<string>aes</string>
 				<string>ascii85</string>
