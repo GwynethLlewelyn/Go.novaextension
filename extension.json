@@ -11,7 +11,7 @@
   "keywords": ["go", "golang"],
   "license": "MIT",
   "main": "main.js",
-  "activationEvents": ["onLanguage:go", "onWorkspaceContains:*.go"],
+  "activationEvents": ["onLanguage:Go", "onWorkspaceContains:*.go"],
   "entitlements": {
     "process": true,
     "requests": false,

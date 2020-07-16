@@ -17,7 +17,7 @@ try {
 }
 
 var clientOptions = {
-  syntaxes: ["go"],
+  syntaxes: ["Go"],
 };
 var client = new LanguageClient(
   "Go",
