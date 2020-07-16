@@ -1,19 +1,19 @@
-console.log("main.js is being run");
+console.info("main.js is being run");
 try {
-  console.log("Path:", nova.extension.path);
+  console.info("Path:", nova.extension.path);
 } catch (err) {
-  console.log("Couldn't get path, error was:", err.message);
+  console.error("Couldn't get path, error was:", err.message);
 }
 
 try {
   var pathToGoPls = nova.path.join(nova.extension.path, "Scripts/gopls");
-  console.log("Constructed path to gopls:", pathToGoPls);
+  console.info("Constructed path to gopls:", pathToGoPls);
   var serverOptions = {
     path: pathToGoPls,
     type: "stdio",
   };
 } catch (err) {
-  console.log("could not set path on serverOptions, error was:", err.message);
+  console.error("could not set path on serverOptions, error was:", err.message);
 }
 
 var clientOptions = {
@@ -27,9 +27,10 @@ var client = new LanguageClient(
 );
 
 try {
-  client.start();
+  var result = client.start();
+  console.info("Client was started; result is", result);
 } catch (err) {
-  console.log("Couldn't start client, error was:", err.message);
+  console.error("Couldn't start client, error was:", err.message);
 }
 
 // exports.activate = function () {
