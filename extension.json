@@ -3,18 +3,18 @@
   "name": "Go",
   "vendor": "Gwyneth Llewelyn",
   "description": "Go Language Definition for Nova",
-  "version": "0.1.0",
-  "categories": ["languages"],
+  "version": "0.1.1",
   "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues",
   "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
   "homepage": "https://gwynethllewelyn.net",
   "keywords": ["go", "golang"],
   "license": "MIT",
+  "categories": ["languages"],
   "main": "main.js",
   "activationEvents": ["onLanguage:Go", "onWorkspaceContains:*.go"],
   "entitlements": {
     "process": true,
     "requests": false,
-    "filesystem": "readonly"
+    "filesystem": "readwrite"
   }
 }

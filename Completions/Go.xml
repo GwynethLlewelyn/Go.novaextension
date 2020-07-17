@@ -9,9 +9,7 @@
     <!-- Entities -->
     <set name="go.entities">
 		<completion string="&quot;" />
-		<completion string="&amp;" />
+		<completion string="`" />
 		<completion string="&apos;" />
-		<completion string="&lt;" />
-		<completion string="&gt;" />
     </set>
 </completions>

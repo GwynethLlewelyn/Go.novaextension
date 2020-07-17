@@ -1,3 +1,9 @@
+## Version 0.1.1
+
+- Version 0.1.0 was successfully uploaded to the Extensions Library!!
+- Go LSP seems not to be working at all
+- Lots of errors in syntax highlighting (e.g. variable declaration)
+
 ## Version 0.1.0
 
 - After checking the many XML files, I found three minor bugs, and now the syntax highlighting not only works, but it shows up as a 'valid' language on all the places that it ought to show up!

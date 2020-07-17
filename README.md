@@ -2,7 +2,7 @@
 
 A quick &amp; dirty Go language definition for the (upcoming) [Panic Nova](https://panic.com/nova) editor.
 
-**Note:** This is still a very preliminary alpha version, it sort of works, but the main reason for this particular version is just to check if I can get it to be uploaded to the Extension Library.
+**Note:** This is still a very preliminary alpha version, syntax highlighting sort of works, but the main reason for this particular version is just to check if I can get it to be uploaded to the Extension Library; sometimes the upload succeeds, sometimes it doesn't.
 
 # Installation
 
@@ -23,6 +23,8 @@ Therefore, this extension _tries_ to use the official (Google-supported) [Go Lan
 I've just provided the bare minimum to encapsulate the Go LSP app (`gopls`, pronounced 'go please') inside a Nova extension. I have no idea if it works. The app itself is, obviously, written in Go, and uses almost 23 MBytes on disk. Is it worth it? Again, I can't reply to that. Maybe, at some point in time, there will be an 'universal', online LSP, hosted by a benevolent corporation (LSP was sort of 'invented' by Microsoft), and _all_ editors might tap into it; or maybe operating system developers will ship LSPs for most languages and run these as services, so that _all_ syntax checking tools on your laptop (or mobile device) will automagically use the available LSP for each programming language you use, and keep those updated using package managers. I don't know. This might be what everybody does in 2025.
 
 Until then, you're stuck with downloading 23 MBytes just to get some Go language syntax checking. Sorry about that!
+
+Oh, and it clearly is not working yet. If you open the Extension Console, you'll see some debugging going on; the calls to the Go LSP seem to fail with some kind of error that I cannot catch. You can see some logs being written on `/tmp/gopls` but these are hardly helpful at this point.
 
 Suggestions and bug reports are more than welcome, but please take into account that I'm new to all of this, and might not be able to even _understand_ most of your issues, much less _fix_ them! But I'm learning...
 

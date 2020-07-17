@@ -11,6 +11,7 @@ try {
   var serverOptions = {
     path: pathToGoPls,
     type: "stdio",
+    args: ["-vv", "-rpc.trace", "serve", "-logfile", "/tmp/gopls.log"],
   };
 } catch (err) {
   console.error("could not set path on serverOptions, error was:", err.message);
@@ -21,16 +22,28 @@ var clientOptions = {
 };
 var client = new LanguageClient(
   "Go",
-  "Go (lang) Language Server",
+  "gopls", // instructions say: The name parameter is the name of the server that can potentially be shown to the user
   serverOptions,
   clientOptions
 );
 
 try {
-  var result = client.start();
-  console.info("Client was started; result is", result);
+  client.start();
 } catch (err) {
-  console.error("Couldn't start client, error was:", err.message);
+  console.error("Couldn't start server, error was:", err.message);
+} finally {
+  console.info("Server was started");
+}
+
+// post checking:
+
+try
+	if (client.running) {
+		console.info("gopls seems to be running");
+		console.info("Instance name:", client.name, "Language identifier:", client.identifier);
+	}
+} catch (err) {
+	console.error("No clue about why the client cannot communicate with gopls; error was: ", err.message);
 }
 
 // exports.activate = function () {

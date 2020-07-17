@@ -76,10 +76,6 @@
 <collections>
 	<!-- Comments -->
 	<collection name="comments">
-		<scope name="go.comment.single.shebang">
-			<expression>^\#!(.*)$</expression>
-			<capture number="1" name="go.comment.content" />
-		</scope>
 		<scope name="go.comment.single" spell-check="true">
 			<expression>\/\/(.*)$</expression>
 			<capture number="1" name="go.comment.content" />
@@ -136,7 +132,7 @@
 			</ends-with>
 			<subscopes>
 				<cut-off>
-					<expression>(?=\b(?:const|func| import|package|type|var)\b)</expression>
+					<expression>(?=\b(?:const|func|import|package|type|var)\b)</expression>
 				</cut-off>
 				<scope name="go.block">
 					<symbol type="block">
