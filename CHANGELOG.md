@@ -1,3 +1,8 @@
+## Version 0.1.3
+
+- Bumped version again
+- Some more experiments on the test file `basictest.go`
+
 ## Version 0.1.2
 
 - Slight bug on `main.js` (missing bracket)
