@@ -37,13 +37,21 @@ try {
 
 // post checking:
 
-try
-	if (client.running) {
-		console.info("gopls seems to be running");
-		console.info("Instance name:", client.name, "Language identifier:", client.identifier);
-	}
+try {
+  if (client.running) {
+    console.info("gopls seems to be running");
+    console.info(
+      "Instance name:",
+      client.name,
+      "Language identifier:",
+      client.identifier
+    );
+  }
 } catch (err) {
-	console.error("No clue about why the client cannot communicate with gopls; error was: ", err.message);
+  console.error(
+    "No clue about why the client cannot communicate with gopls; error was: ",
+    err.message
+  );
 }
 
 // exports.activate = function () {

@@ -24,7 +24,7 @@ I've just provided the bare minimum to encapsulate the Go LSP app (`gopls`, pron
 
 Until then, you're stuck with downloading 23 MBytes just to get some Go language syntax checking. Sorry about that!
 
-Oh, and it clearly is not working yet. If you open the Extension Console, you'll see some debugging going on; the calls to the Go LSP seem to fail with some kind of error that I cannot catch. You can see some logs being written on `/tmp/gopls` but these are hardly helpful at this point.
+Oh, and it clearly is not working yet. If you open the Extension Console, you'll see some debugging going on; the calls to the Go LSP seem to fail with some kind of error that I cannot catch. You can see some logs being written on `/tmp/gopls.log` but these are hardly helpful at this point.
 
 Suggestions and bug reports are more than welcome, but please take into account that I'm new to all of this, and might not be able to even _understand_ most of your issues, much less _fix_ them! But I'm learning...
 

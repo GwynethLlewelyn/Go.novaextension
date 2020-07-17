@@ -1,3 +1,7 @@
+## Version 0.1.2
+
+- Slight bug on `main.js` (missing bracket)
+
 ## Version 0.1.1
 
 - Version 0.1.0 was successfully uploaded to the Extensions Library!!
