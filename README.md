@@ -2,6 +2,8 @@
 
 A quick &amp; dirty Go language definition for the (upcoming) [Panic Nova](https://panic.com/nova) editor.
 
+**Note:** This is still a very preliminary alpha version, it sort of works, but the main reason for this particular version is just to check if I can get it to be uploaded to the Extension Library.
+
 # Installation
 
 If you got it from inside Nova, there is nothing else to do!
