@@ -1,3 +1,7 @@
+## Version 0.1.4
+
+Cleaning up the logs when instance is deactivated.
+
 ## Version 0.1.3
 
 - Bumped version again

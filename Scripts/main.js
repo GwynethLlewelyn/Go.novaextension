@@ -54,6 +54,17 @@ try {
   );
 }
 
+// Cleaning up the log file
+exports.deactivate = function () {
+  try {
+    nova.fs.remove("/tmp/gopls.log");
+  } catch (err) {
+    console.error("Attempt to remove the gopls log resulted in an error:", err);
+  } finally {
+    console.info("Logs cleaned; uninstall finished.");
+  }
+};
+
 // exports.activate = function () {
 //   // Do work when the extension is activated
 //   console.log("We have been activated!");
