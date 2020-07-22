@@ -1,3 +1,7 @@
+## Version 0.1.5
+
+- Make `.mod` files (e.g. `go.mod`) be part of the extensions, or else they will be seen as music files
+
 ## Version 0.1.4
 
 Cleaning up the logs when instance is deactivated.
