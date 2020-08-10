@@ -1,6 +1,6 @@
 ## Version 0.2.0
 
-- Added gazillions of changes, based on several different templates and the manuals of a competitor editor which uses similar syntax (which was originally based on the templates for Nova!)
+- Added gazillions of changes, based on several different templates and the manuals of a competitor editor which uses similar syntax (which was originally based on the templates for Coda!)
 - While this produces slightly better matching, there are tons of rules that never get activated but I don't know why
 - Added a Smarty-like parser for Go Templates (it's basically the same concept with some tiny, Go-specific changes)
 - Added some test files, please ignore them, they're not meant to be 'working code' (nor even valid one)
