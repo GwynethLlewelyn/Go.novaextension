@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax name="go-template">
+    <meta>
+        <name>Go templates</name>
+        <type>markup</type>
+        <preferred-file-extension>tpl</preferred-file-extension>
+        <parent>html</parent>
+    </meta>
+
+    <detectors>
+        <extension priority="1.0">tpl</extension>
+    </detectors>
+
+    <identifiers>
+        <prefixes>
+            <string>$</string>
+        </prefixes>
+    </identifiers>
+
+    <indentation>
+        <increase>
+            <expression>&lt;(?!(?i:\!DOCTYPE|area|base|basefront|br|col|embed|frame|hr|img|input|keygen|link|meta|object|param|source)|[^&gt;]*/&gt;)([A-Za-z0-9]+)(?=\s|&gt;)[^&gt;]*&gt;(?!.*&lt;/\1&gt;)</expression>
+        </increase>
+        <decrease>
+            <expression>[\s]*&lt;/([A-Za-z0-9]+)(?=\s|&gt;)[^&gt;]*&gt;</expression>
+        </decrease>
+    </indentation>
+
+    <comments>
+        <multiline>
+            <starts-with>
+                <expression>&lt;!--</expression>
+            </starts-with>
+            <ends-with>
+                <expression>--&gt;</expression>
+            </ends-with>
+        </multiline>
+    </comments>
+
+    <brackets>
+        <pair open="{" close="}" />
+        <pair open="[" close="]" />
+        <pair open="(" close=")" />
+    </brackets>
+
+    <surrounding-pairs>
+        <pair open="{{" close="}}" />
+		<pair open="{" close="}" />
+        <pair open="[" close="]" />
+        <pair open="(" close=")" />
+        <pair open="&apos;" close="&apos;" />
+        <pair open="&quot;" close="&quot;" />
+        <pair open="`" close="`" />
+    </surrounding-pairs>
+
+    <scopes spell-check="true" lookup="dictionary">
+        <include syntax="html" />
+    </scopes>
+
+    <template-scopes>
+        <!-- Tags -->
+        <scope name="go-template.tag" spell-check="false" lookup="index">
+            <starts-with>
+                <expression>\{\{</expression>
+                <capture number="0" name="go-template.tag.framework.start" />
+            </starts-with>
+            <ends-with>
+                <expression>\}\}</expression>
+                <capture number="0" name="go-template.tag.framework.end" />
+            </ends-with>
+            <subscopes>
+                <include syntax="self" collection="variables" />
+            </subscopes>
+        </scope>
+    </template-scopes>
+
+    <collections>
+        <!-- Variables -->
+        <collection name="variables">
+            <scope name="identifier.variable" spell-check="false" lookup="index">
+                <symbol type="variable" scope="local" />
+                <expression>(\$[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)</expression>
+                <capture number="1" name="go.identifier.name" />
+            </scope>
+			<scope name="identifier.variable" spell-check="false" lookup="index">
+				<symbol type="variable" scope="private" />
+				<expression>(\.[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)</expression>
+				<capture number="1" name="go.identifier.property.name" />
+			</scope>
+        </collection>
+    </collections>
+</syntax>

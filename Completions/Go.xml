@@ -1,15 +1,238 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completions>
-    <provider>
-        <selector>go</selector>
-        <expression>\b[a-zA-Z0-9-_]*</expression>
-        <set>go.entities</set>
-    </provider>
+	<!-- Variables and functions -->
+	<provider>
+		<selector>go, go *:not(string,string *,comment,variable,regex,regex *)</selector>
+		<completions>go.root-variables</completions>
+		<completions>go.root-methods</completions>
+		<completions>go.constants</completions>
+		<complete-match>(?&lt;!\.)\b[a-zA-Z]*</complete-match>
+	</provider>
+	<!-- Global properties -->
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.global-properties</completions>
+		<complete-match capture="1">\.([a-zA-Z]*)</complete-match>
+	</provider>
+	<!-- Object constructors -->
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.constructors</completions>
+		<complete-match capture="1">\bnew\s+([a-zA-Z]*)</complete-match>
+	</provider>
+	<!-- TODO: This needs to change to support some form of variable substitution in the completion ID -->
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.action.properties</completions>
+		<complete-match capture="1">\baction\.(\w*)</complete-match>
+	</provider>
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.context.properties</completions>
+		<complete-match capture="1">\bcontext\.(\w*)</complete-match>
+	</provider>
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.lineStorage.properties</completions>
+		<complete-match capture="1">\blineStorage\.(\w*)</complete-match>
+	</provider>
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.syntaxTree.properties</completions>
+		<complete-match capture="1">\bsyntaxTree\.(\w*)</complete-match>
+	</provider>
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.itemizer.properties</completions>
+		<complete-match capture="1">\bitemizer\.(\w*)</complete-match>
+	</provider>
+	<provider>
+		<selector>go, go *:not(string,string *,comment,regex,regex *)</selector>
+		<completions>go.textPreferences.properties</completions>
+		<complete-match capture="1">\btextPreferences\.(\w*)</complete-match>
+	</provider>
 
-    <!-- Entities -->
-    <set name="go.entities">
-		<completion string="&quot;" />
-		<completion string="`" />
-		<completion string="&apos;" />
-    </set>
+	<!--Language keywords-->
+	<set name="go.keywords.control">
+		<completion string="break">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(;)|[^;]</matched-suffix>
+					<transform-into>(?1::;)</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="case">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>([^\n\r]?)|[\n\r]</matched-suffix>
+					<transform-into>(?1:: ${1:condition}:)</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="continue">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(;)|[^;]</matched-suffix>
+					<transform-into>(?1::;)</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="default">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(:)|[^:]</matched-suffix>
+					<transform-into>(?1:::)</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="else">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(\s*\{)|\s*[^{]|[^\s{]</matched-suffix>
+					<transform-into>(?1:: {
+							$0
+							})</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="for">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(\s*\()|\s*[^(]|[^\s(]</matched-suffix>
+					<transform-into>(?1:: (${1:${2:var i = 0}; ${3:i &lt; count}; ${4:i++}}\) {
+									$0
+									})</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="if">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(\s*\()|(\s*\{)|\s*[^(]|[^\s(]</matched-suffix>
+					<transform-into>(?1::(?2: ($0\): ($1\) {
+										$0
+										}))</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="return" />
+		<completion string="switch">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(\s*\()|\s*[^(]|[^\s(]</matched-suffix>
+					<transform-into>(?1:: ($1\) {
+											$0
+											})</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="nil" />
+	</set>
+	<set name="go.keywords.elseif">
+		<completion string="else if">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(\s*\()|(\s*\{)|\s*[^(]|[^\s(]</matched-suffix>
+					<transform-into>(?1::(?2: ($0\): ($1\) {
+													$0
+													}))</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+	</set>
+	<set name="go.keywords">
+		<completion string="func">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(\s*\(|\s+[a-zA-Z_$])|\s*[^(a-zA-Z_$]|[^\s(]</matched-suffix>
+					<transform-into>(?1:: ${1:name}($2\) {$3})</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+		<completion string="chan" />
+		<completion string="const" />
+		<completion string="defer"/>
+		<completion string="fallthrough"/>
+		<completion string="false" />
+		<completion string="go"/>
+		<completion string="goto"/>
+		<completion string="import" />
+		<completion string="interface" />
+		<completion string="map" />
+		<completion string="new"/>
+		<completion string="nil" />
+		<completion string="package" />
+		<completion string="range" />
+		<completion string="select" />
+		<completion string="struct" />
+		<completion string="true" />
+		<completion string="type" />
+		<completion string="var" />
+	</set>
+	<!--Natives and static class properties-->
+	<set name="go.natives">
+		<behavior>
+			<append-dynamic>
+				<matched-suffix>(\()|[^(]</matched-suffix>
+				<transform-into>(?1::($1\))</transform-into>
+			</append-dynamic>
+		</behavior>
+		<completion string="bool" />
+		<completion string="byte" />
+		<completion string="complex64" />
+		<completion string="complex128" />
+		<completion string="float32" />
+		<completion string="float64" />
+		<completion string="int" />
+		<completion string="int8" />
+		<completion string="int16" />
+		<completion string="int32" />
+		<completion string="int64" />
+		<completion string="rune" />
+		<completion string="string" />
+		<completion string="uint" />
+		<completion string="uint8" />
+		<completion string="uint16" />
+		<completion string="uint32" />
+		<completion string="uint64" />
+		<completion string="uintptr" />
+	</set>
+	<!--Language functions-->
+	<set name="go.functions.core">
+		<completion string="append" />
+		<completion string="cap" />
+		<completion string="close" />
+		<completion string="complex" />
+		<completion string="copy" />
+		<completion string="delete" />
+		<completion string="imag" />
+		<completion string="len" />
+		<completion string="new" />
+		<completion string="panic" />
+		<completion string="print" />
+		<completion string="println" />
+		<completion string="real" />
+		<completion string="recover" />
+		<completion string="Alignof" />
+		<completion string="Offsetof" />
+		<completion string="Sizeof" />
+	</set>
+	<set name="go.functions">
+		<!--Of the following, the largest group uses strings-->
+		<behavior>
+			<append-dynamic>
+				<matched-suffix>(\()|[^(]</matched-suffix>
+				<transform-into>(?1::(${1:string}\))</transform-into>
+			</append-dynamic>
+		</behavior>
+		<completion string="make">
+			<behavior>
+				<append-dynamic>
+					<matched-suffix>(\()|[^(]</matched-suffix>
+					<transform-into>(?1::(${1:sliceType}, ${2:length}, ${3:capacity}\))</transform-into>
+				</append-dynamic>
+			</behavior>
+		</completion>
+	</set>
 </completions>

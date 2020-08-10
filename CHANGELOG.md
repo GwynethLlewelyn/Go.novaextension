@@ -1,3 +1,15 @@
+## Version 0.2.0
+
+- Added gazillions of changes, based on several different templates and the manuals of a competitor editor which uses similar syntax (which was originally based on the templates for Nova!)
+- While this produces slightly better matching, there are tons of rules that never get activated but I don't know why
+- Added a Smarty-like parser for Go Templates (it's basically the same concept with some tiny, Go-specific changes)
+- Added some test files, please ignore them, they're not meant to be 'working code' (nor even valid one)
+
+## Version 0.1.6 (never released)
+
+- With the new Nova Beta update to 1.0b17 (Build 190148) it looks like the executable for `gopls` lost its executable flag; if that did make a difference or not is beyond me, but I recompiled `gopls` again, with newer libraries.
+- When clicking on the syntax inspector button (at the bottom of each pane, the tiny 'target' icon which is to the left of the 'current symbol'), now 'something' happens when randomly clicking on Go code (i.e. there is a modal popup box that shows some information). If that's the desired behaviour or not... I have no idea.
+
 ## Version 0.1.5
 
 - Make `.mod` files (e.g. `go.mod`) be part of the extensions, or else they will be seen as music files
