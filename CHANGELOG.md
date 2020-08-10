@@ -4,6 +4,7 @@
 - While this produces slightly better matching, there are tons of rules that never get activated but I don't know why
 - Added a Smarty-like parser for Go Templates (it's basically the same concept with some tiny, Go-specific changes)
 - Added some test files, please ignore them, they're not meant to be 'working code' (nor even valid one)
+- Had to remove `gopls` because it's too big! You can download it from https://github.com/golang/tools/tree/master/gopls
 
 ## Version 0.1.6 (never released)
 
