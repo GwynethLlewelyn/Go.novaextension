@@ -1,3 +1,8 @@
+## Version 0.2.1
+
+- Small JSON change from 'vendor' to 'organization' according to the new specs for the Nova Beta 1.0b18 (195066)
+- Tried to add `gopls` again, but couldn't
+
 ## Version 0.2.0
 
 - Added gazillions of changes, based on several different templates and the manuals of a competitor editor which uses similar syntax (which was originally based on the templates for Coda!)

@@ -47,5 +47,6 @@ func main() {
 		// do something
 	} else {
 		// do something else somewhere
+		fmt.Println("Something else")
 	}
 }
