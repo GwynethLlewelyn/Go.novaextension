@@ -74,6 +74,7 @@
 	<include syntax="self" collection="punctuation" />
 	<include syntax="self" collection="json-punctuation" />
 	<include syntax="self" collection="variables" />
+	<include syntax="self" collection="types"/>
 </scopes>
 
 <collections>
@@ -501,27 +502,28 @@
 	<!-- Types -->
 	<collection name="types">
 		<scope name="go.identifier.type.core">
-			<strings>
-				<string>bool</string>
-				<string>byte</string>
-				<string>complex64</string>
-				<string>complex128</string>
-				<string>float32</string>
-				<string>float64</string>
-				<string>int</string>
-				<string>int8</string>
-				<string>int16</string>
-				<string>int32</string>
-				<string>int64</string>
-				<string>rune</string>
-				<string>string</string>
-				<string>uint</string>
-				<string>uint8</string>
-				<string>uint16</string>
-				<string>uint32</string>
-				<string>uint64</string>
-				<string>uintptr</string>
-			</strings>
+			<expression>(\b\s+([A-Za-zÀ-ÖØ-öø-ÿ0-9_\[\]]*))</expression>
+				<strings>
+					<string>bool</string>
+					<string>byte</string>
+					<string>complex64</string>
+					<string>complex128</string>
+					<string>float32</string>
+					<string>float64</string>
+					<string>int</string>
+					<string>int8</string>
+					<string>int16</string>
+					<string>int32</string>
+					<string>int64</string>
+					<string>rune</string>
+					<string>string</string>
+					<string>uint</string>
+					<string>uint8</string>
+					<string>uint16</string>
+					<string>uint32</string>
+					<string>uint64</string>
+					<string>uintptr</string>
+				</strings>
 		</scope>
 	</collection>
 	<!-- Identifiers -->
