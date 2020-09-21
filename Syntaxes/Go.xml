@@ -67,6 +67,7 @@
 	<include syntax="self" collection="comments" />
 	<include syntax="self" collection="blocks" />
 	<include syntax="self" collection="definitions" />
+	<include syntax="self" collection="declarations" />
 	<include syntax="self" collection="keywords" />
 	<include syntax="self" collection="values" />
 	<include syntax="self" collection="identifiers" />
@@ -174,6 +175,18 @@
 			</subscopes>
 		</scope>
 	</collection>
+	
+	<!-- Declaration, these are not actially declarations -->
+	<collection name="declarations">
+		<!-- Package -->
+		<scope name="go.declaration.package">
+			<expression>package</expression>
+		</scope>
+		
+		<scope name="go.declaration.import">
+			<expression>import</expression>
+		</scope>
+	</collection>
 
 	<!-- Definitions -->
 	<collection name="definitions">
@@ -199,6 +212,13 @@
 				<include syntax="self" collection="return-arguments" />
 				<include syntax="self" collection="function-blocks" />
 			</subscopes>
+		</scope>
+
+		<!-- type -->
+		<scope name="go.definition.type">
+			<expression>\b(type)\s+([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
+			<capture number="1" name="go.keyword.type" />
+			<capture number="2" name="go.identifier.type.name" />
 		</scope>
 
 		<!-- Methods: in Go, these are connected to structs, not classes, since Go does not have classes -->
@@ -387,6 +407,7 @@
 				<string>var</string>
 			</strings>
 		</scope>
+		
 	</collection>
 
 	<!-- Values -->
@@ -489,7 +510,7 @@
 			<starts-with>
 				<expression>(?i)(?&lt;=[=(,:\+~!?\[|]|return|;|=&gt;)\s*/(?![/*+{}?\r\n])</expression>
 			</starts-with>
-			<ends-with>
+			<ends-with>x
 				<expression>/([cgimosuxy]+\b)?</expression>
 			</ends-with>
 			<subscopes>
@@ -501,9 +522,9 @@
 	</collection>
 	<!-- Types -->
 	<collection name="types">
-		<scope name="go.identifier.type.core">
+		<scope name="go.identifier.type.core" spell-check="false" lookup="index">
 			<expression>(\b\s+([A-Za-zÀ-ÖØ-öø-ÿ0-9_\[\]]*))</expression>
-				<strings>
+				<strings word-boundary="false">
 					<string>bool</string>
 					<string>byte</string>
 					<string>complex64</string>

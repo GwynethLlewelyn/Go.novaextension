@@ -11,6 +11,10 @@ type User struct {
 	Admin bool
 }
 
+type user string
+
+struct {}
+
 // myFunc does something not very useful
 func myFunc(a string, b string) bool {
 	return a != b
@@ -51,6 +55,8 @@ func main() {
 	fmt.Println("wth?...")
 	println("something")
 	fmt.Printf("%s", Main)
+	
+	pointer := *User
 
 	if i,err := 1; err == nil {
 		// do something
