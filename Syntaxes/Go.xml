@@ -67,7 +67,6 @@
 	<include syntax="self" collection="comments" />
 	<include syntax="self" collection="blocks" />
 	<include syntax="self" collection="definitions" />
-	<include syntax="self" collection="declarations" />
 	<include syntax="self" collection="keywords" />
 	<include syntax="self" collection="values" />
 	<include syntax="self" collection="identifiers" />
@@ -176,18 +175,6 @@
 		</scope>
 	</collection>
 	
-	<!-- Declaration, these are not actially declarations -->
-	<collection name="declarations">
-		<!-- Package -->
-		<scope name="go.declaration.package">
-			<expression>package</expression>
-		</scope>
-		
-		<scope name="go.declaration.import">
-			<expression>import</expression>
-		</scope>
-	</collection>
-
 	<!-- Definitions -->
 	<collection name="definitions">
 		<!-- Functions -->
@@ -394,10 +381,8 @@
 				<string>go</string>
 				<string>goto</string>
 				<string>if</string>
-				<string>import</string>
 				<string>interface</string>
 				<string>map</string>
-				<string>package</string>
 				<string>range</string>
 				<string>return</string>
 				<string>select</string>
@@ -549,6 +534,16 @@
 	</collection>
 	<!-- Identifiers -->
 	<collection name="identifiers">
+		<!-- Package -->
+		<scope name="go.identifier.global.package">
+			<expression>\b(package)\s+([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
+						<capture number="1" name="go.string-template.package" />
+						<capture number="2" name="go.identifier" />
+		</scope>
+		<!-- Import -->
+		<scope name="go.string-template.import">
+			<expression>import</expression>
+		</scope>
 		<scope name="go.identifier.core.function">
 			<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 				<string>append</string>
