@@ -74,6 +74,7 @@
 	<include syntax="self" collection="punctuation" />
 	<include syntax="self" collection="json-punctuation" />
 	<include syntax="self" collection="variables" />
+	<include syntax="self" collection="types"/>
 </scopes>
 
 <collections>
@@ -173,7 +174,7 @@
 			</subscopes>
 		</scope>
 	</collection>
-
+	
 	<!-- Definitions -->
 	<collection name="definitions">
 		<!-- Functions -->
@@ -198,6 +199,13 @@
 				<include syntax="self" collection="return-arguments" />
 				<include syntax="self" collection="function-blocks" />
 			</subscopes>
+		</scope>
+
+		<!-- type -->
+		<scope name="go.definition.type">
+			<expression>\b(type)\s+([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
+			<capture number="1" name="go.keyword.type" />
+			<capture number="2" name="go.identifier.type.name" />
 		</scope>
 
 		<!-- Methods: in Go, these are connected to structs, not classes, since Go does not have classes -->
@@ -373,10 +381,8 @@
 				<string>go</string>
 				<string>goto</string>
 				<string>if</string>
-				<string>import</string>
 				<string>interface</string>
 				<string>map</string>
-				<string>package</string>
 				<string>range</string>
 				<string>return</string>
 				<string>select</string>
@@ -386,6 +392,7 @@
 				<string>var</string>
 			</strings>
 		</scope>
+		
 	</collection>
 
 	<!-- Values -->
@@ -488,7 +495,7 @@
 			<starts-with>
 				<expression>(?i)(?&lt;=[=(,:\+~!?\[|]|return|;|=&gt;)\s*/(?![/*+{}?\r\n])</expression>
 			</starts-with>
-			<ends-with>
+			<ends-with>x
 				<expression>/([cgimosuxy]+\b)?</expression>
 			</ends-with>
 			<subscopes>
@@ -500,32 +507,43 @@
 	</collection>
 	<!-- Types -->
 	<collection name="types">
-		<scope name="go.identifier.type.core">
-			<strings>
-				<string>bool</string>
-				<string>byte</string>
-				<string>complex64</string>
-				<string>complex128</string>
-				<string>float32</string>
-				<string>float64</string>
-				<string>int</string>
-				<string>int8</string>
-				<string>int16</string>
-				<string>int32</string>
-				<string>int64</string>
-				<string>rune</string>
-				<string>string</string>
-				<string>uint</string>
-				<string>uint8</string>
-				<string>uint16</string>
-				<string>uint32</string>
-				<string>uint64</string>
-				<string>uintptr</string>
-			</strings>
+		<scope name="go.identifier.type.core" spell-check="false" lookup="index">
+			<expression>(\b\s+([A-Za-zÀ-ÖØ-öø-ÿ0-9_\[\]]*))</expression>
+				<strings word-boundary="false">
+					<string>bool</string>
+					<string>byte</string>
+					<string>complex64</string>
+					<string>complex128</string>
+					<string>float32</string>
+					<string>float64</string>
+					<string>int</string>
+					<string>int8</string>
+					<string>int16</string>
+					<string>int32</string>
+					<string>int64</string>
+					<string>rune</string>
+					<string>string</string>
+					<string>uint</string>
+					<string>uint8</string>
+					<string>uint16</string>
+					<string>uint32</string>
+					<string>uint64</string>
+					<string>uintptr</string>
+				</strings>
 		</scope>
 	</collection>
 	<!-- Identifiers -->
 	<collection name="identifiers">
+		<!-- Package -->
+		<scope name="go.identifier.global.package">
+			<expression>\b(package)\s+([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
+						<capture number="1" name="go.string-template.package" />
+						<capture number="2" name="go.identifier" />
+		</scope>
+		<!-- Import -->
+		<scope name="go.string-template.import">
+			<expression>import</expression>
+		</scope>
 		<scope name="go.identifier.core.function">
 			<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 				<string>append</string>

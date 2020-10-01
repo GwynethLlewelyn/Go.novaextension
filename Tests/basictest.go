@@ -1,6 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+type User struct {
+	FirstName string
+	LastName string
+	Age int
+	Admin bool
+}
+
+type user string
+
+struct {}
 
 // myFunc does something not very useful
 func myFunc(a string, b string) bool {
@@ -22,8 +35,8 @@ func main() {
 	// and another
 	/* inclie */
 
-	var a := 'w'
-	t := make(1, 2, 1.23, 00.00, '\x08"')
+	var a = 'w'
+	t := make(1, 2, 1.23, 00.00, `\x08"`)
 	b := append(a, b)
 	complexNumber := 4+3i
 	exponential := -3.1E5
@@ -32,7 +45,7 @@ func main() {
 
 	var (
 		google []byte
-		a string
+		x string
 		c int64
 	)
 	Main := "var"
@@ -42,6 +55,8 @@ func main() {
 	fmt.Println("wth?...")
 	println("something")
 	fmt.Printf("%s", Main)
+	
+	pointer := *User
 
 	if i,err := 1; err == nil {
 		// do something
