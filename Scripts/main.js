@@ -1,79 +1,115 @@
-console.info("main.js is being run");
-try {
-  console.info("Path:", nova.extension.path);
-} catch (err) {
-  console.error("Couldn't get path, error was:", err.message);
-}
+var langserver = null;
 
-try {
-  var pathToGoPls = nova.path.join(nova.extension.path, "Scripts/gopls");
-  console.info("Constructed path to gopls:", pathToGoPls);
-  var serverOptions = {
-    path: pathToGoPls,
-    type: "stdio",
-    args: ["-vv", "-rpc.trace", "serve", "-logfile", "/tmp/gopls.log"],
-  };
-} catch (err) {
-  console.error("could not set path on serverOptions, error was:", err.message);
-}
-
-var clientOptions = {
-  syntaxes: ["Go"],
+exports.activate = function () {
+  // Do work when the extension is activated
+  langserver = new GoLanguageServer();
 };
-var client = new LanguageClient(
-  "Go",
-  "gopls", // instructions say: The name parameter is the name of the server that can potentially be shown to the user
-  serverOptions,
-  clientOptions
-);
 
-try {
-  client.start();
-} catch (err) {
-  console.error("Couldn't start server, error was:", err.message);
-} finally {
-  console.info("Server was started");
-}
-
-// post checking:
-
-try {
-  if (client.running) {
-    console.info("gopls seems to be running");
-    console.info(
-      "Instance name:",
-      client.name,
-      "Language identifier:",
-      client.identifier
-    );
-  }
-} catch (err) {
-  console.error(
-    "No clue about why the client cannot communicate with gopls; error was: ",
-    err.message
-  );
-}
-
-// Cleaning up the log file
 exports.deactivate = function () {
-  try {
-    nova.fs.remove("/tmp/gopls.log");
-  } catch (err) {
-    console.error("Attempt to remove the gopls log resulted in an error:", err);
-  } finally {
-    console.info("Logs cleaned; uninstall finished.");
+  // Clean up state before the extension is deactivated
+  if (langserver) {
+    langserver.stop();
+    langserver = null;
   }
 };
 
-// exports.activate = function () {
-//   // Do work when the extension is activated
-//   console.log("We have been activated!");
-//   try {
-//     client.start();
-//   } catch (err) {
-//     console.log(
-//       "Couldn't activate client inside callback, error was:",
-//       err.message
-//     );
-//   }
-// };
+class GoLanguageServer {
+  constructor() {
+    // Handle preference change for enable/disable.
+    nova.config.onDidChange(
+      'go-nova.enable-gopls',
+      function (current, previous) {
+        if (current) {
+          this.start();
+        } else {
+          this.stop();
+        }
+      },
+      this
+    );
+
+    // Handle preference change for gopls path.
+    nova.config.onDidChange(
+      'go-nova.gopls-path',
+      function (current, previous) {
+        // If the user deletes the value in the preferences and presses
+        // return or tab, it will revert to the default of 'gopls'.
+        // But on the way there, we get called once with with current === null
+        // and again with current === previous, both of which we need to ignore.
+        if (
+          current &&
+          current != previous &&
+          nova.config.get('go-nova.enable-gopls', 'boolean')
+        ) {
+          console.info('Restarting gopls due to path change');
+          this.stop();
+          // Hack: until we can reliably determine when the service is
+          // actually stopped, pause a few ticks to already running error.
+          setTimeout(() => {
+            this.start();
+          }, 2000);
+        }
+      },
+      this
+    );
+
+    // Start on load, if the preferences say so.
+    if (nova.config.get('go-nova.enable-gopls', 'boolean')) {
+      this.start();
+    }
+  }
+
+  start() {
+    // Basic server options
+    var serverOptions = {
+      path: nova.config.get('go-nova.gopls-path', 'string') || 'gopls',
+      args: ['serve'],
+    };
+
+    // An absolute path or use the search path?
+    if (serverOptions.path.charAt(0) !== '/') {
+      serverOptions.args.unshift(serverOptions.path);
+      serverOptions.path = '/usr/bin/env';
+    }
+
+    if (nova.inDevMode()) {
+      serverOptions.args = serverOptions.args.concat([
+        '-rpc.trace',
+        '-logfile',
+        '/tmp/gopls.log',
+      ]);
+      console.info('gopls server options:', JSON.stringify(serverOptions));
+    }
+
+    var clientOptions = {
+      syntaxes: ['go'],
+    };
+
+    var client = new LanguageClient(
+      'gopls',
+      'Go Language Server',
+      serverOptions,
+      clientOptions
+    );
+
+    try {
+      client.start();
+      nova.subscriptions.add(client);
+      this.languageClient = client;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  stop() {
+    if (this.languageClient) {
+      this.languageClient.stop();
+      nova.subscriptions.remove(this.languageClient);
+      this.languageClient = null;
+    }
+  }
+
+  client() {
+    return this.languageClient;
+  }
+}
