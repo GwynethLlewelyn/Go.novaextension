@@ -16,5 +16,24 @@
     "process": true,
     "requests": false,
     "filesystem": "readwrite"
-  }
+  },
+  "config": [
+    {
+      "key": "go-nova.enable-gopls",
+      "title": "Enable Language Server",
+      "description": "Use the gopls language server for enhanced functionality. The gopls command should be installed in your search path, or you can specify the full path below.",
+      "link": "https://github.com/golang/tools/blob/master/gopls/README.md",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "key": "go-nova.gopls-path",
+      "title": "Language Server Command",
+      "link": "https://github.com/golang/tools/blob/master/gopls/README.md",
+      "description": "The command name to start the gopls language server. Use an absolute path here if gopls is not in your search path.",
+      "type": "path",
+      "default": "gopls",
+      "filetype": ["public.unix-executable"]
+    }
+  ]
 }
