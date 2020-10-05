@@ -35,5 +35,17 @@
       "default": "gopls",
       "filetype": ["public.unix-executable"]
     }
-  ]
+  ],
+  "commands": {
+      "editor": [
+        {
+          "title": "Jump to Definition",
+          "command": "go.jumpToDefinition",
+          "when": "editorHasFocus",
+          "filters": {
+            "syntaxes": ["go"]
+          }
+        }
+      ]
+    }
 }
