@@ -495,7 +495,7 @@
 			<starts-with>
 				<expression>(?i)(?&lt;=[=(,:\+~!?\[|]|return|;|=&gt;)\s*/(?![/*+{}?\r\n])</expression>
 			</starts-with>
-			<ends-with>x
+			<ends-with>
 				<expression>/([cgimosuxy]+\b)?</expression>
 			</ends-with>
 			<subscopes>
