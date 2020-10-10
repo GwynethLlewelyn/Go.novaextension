@@ -102,6 +102,7 @@ class GoLanguageServer {
     }
     
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
+    this.commandBoing = nova.commands.register('go.boing', boing);
   }
 
   stop() {
@@ -118,6 +119,21 @@ class GoLanguageServer {
   }
 }
 
+
+
+function boing(editor) {
+  console.info("Boing");
+  
+  if (langserver && langserver.client()) {
+    console.info("We appear to have a language server");
+    var jump = langserver.client().sendRequest('shutdown', null).then(function(arg) {
+      console.info("Shutdown response", arg);
+    }).catch(function(err) {
+      console.info("Shutdown error", err);
+    })
+  }
+  
+}
 
 
 function jumpToDefinition(editor) {

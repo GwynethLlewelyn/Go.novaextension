@@ -45,6 +45,14 @@
           "filters": {
             "syntaxes": ["go"]
           }
+        },
+        {
+          "title": "Boing",
+          "command": "go.boing",
+          "when": "editorHasFocus",
+          "filters": {
+            "syntaxes": ["go"]
+          }
         }
       ]
     }
