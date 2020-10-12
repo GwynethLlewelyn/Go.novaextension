@@ -119,8 +119,6 @@ class GoLanguageServer {
   }
 }
 
-
-
 function organizeImports(editor) {
   if (langserver && langserver.client()) {
     var cmd = 'textDocument/codeAction';
@@ -133,48 +131,22 @@ function organizeImports(editor) {
     };
     
     langserver.client().sendRequest(cmd, cmdArgs).then((response) => {
-      console.info(`${cmd} response:`, response);
+      // console.info(`${cmd} response:`, response);
       if (response !== null && response !== undefined) {
         response.forEach((action) => {
           if (action.kind === "source.organizeImports") {
             console.info(`Performing actions for ${action.kind}`);
-            applyEdits(action.edit);
+            action.edit.documentChanges.forEach((tde) => {
+              lsp.ApplyTextDocumentEdit(tde);
+            });
           } else {
-            console.log(`Skipping action ${action.kind}`);
+            console.info(`Skipping action ${action.kind}`);
           }
         });
       }
     }).catch(function(err) {
       console.error(`${cmd} error!:`, err);
     });
-  }
-}
-
-
-function applyEdits(edit) {
-  if (edit && edit.documentChanges) {
-    edit.documentChanges.forEach((change) => {
-      // Make sure the document is opened
-      nova.workspace.openFile(change.textDocument.uri)
-        .then((editor) => {
-          // Start an edit session
-          editor.edit((tee) => {
-            // Iterate the edits supplied from the server
-            var shift = 0;
-            change.edits.forEach((e) => {
-              var r0 = lsp.LspRangeToRange(editor.document, e.range);
-              var r1 = new Range(r0.start + shift, r0.end + shift);
-              tee.replace(r1, e.newText);
-              shift = shift + (e.newText.length - r1.length);
-            });
-          }).then(() => { console.info("Edit done"); });
-        })
-        .catch((err) => {
-          console.error("applyEdits FAIL", err);
-        });
-    });
-  } else {
-    console.info("no edits to apply, it seems");
   }
 }
 
