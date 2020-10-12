@@ -47,8 +47,8 @@
           }
         },
         {
-          "title": "Boing",
-          "command": "go.boing",
+          "title": "Organize Imports",
+          "command": "go.organizeImports",
           "when": "editorHasFocus",
           "filters": {
             "syntaxes": ["go"]

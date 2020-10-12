@@ -102,7 +102,7 @@ class GoLanguageServer {
     }
     
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
-    this.commandBoing = nova.commands.register('go.boing', boing);
+    this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
   }
 
   stop() {
@@ -121,20 +121,62 @@ class GoLanguageServer {
 
 
 
-function boing(editor) {
-  console.info("Boing");
-  
+function organizeImports(editor) {
   if (langserver && langserver.client()) {
-    console.info("We appear to have a language server");
-    var jump = langserver.client().sendRequest('shutdown', null).then(function(arg) {
-      console.info("Shutdown response", arg);
+    var cmd = 'textDocument/codeAction';
+    var cmdArgs = {
+      textDocument: {
+        uri: editor.document.uri
+      },
+      range: lsp.RangeToLspRange(editor.document, editor.selectedRange),
+      context: { diagnostics: [] }
+    };
+    
+    langserver.client().sendRequest(cmd, cmdArgs).then((response) => {
+      console.info(`${cmd} response:`, response);
+      if (response !== null && response !== undefined) {
+        response.forEach((action) => {
+          if (action.kind === "source.organizeImports") {
+            console.info(`Performing actions for ${action.kind}`);
+            applyEdits(action.edit);
+          } else {
+            console.log(`Skipping action ${action.kind}`);
+          }
+        });
+      }
     }).catch(function(err) {
-      console.info("Shutdown error", err);
-    })
+      console.error(`${cmd} error!:`, err);
+    });
   }
-  
 }
 
+
+function applyEdits(edit) {
+  if (edit && edit.documentChanges) {
+    edit.documentChanges.forEach((change) => {
+      // Make sure the document is opened
+      nova.workspace.openFile(change.textDocument.uri)
+        .then((editor) => {
+          // Start an edit session
+          editor.edit((tee) => {
+            // Iterate the edits supplied from the server
+            var shift = 0;
+            change.edits.forEach((e) => {
+              var r0 = lsp.LspRangeToRange(editor.document, e.range);
+              var r1 = new Range(r0.start + shift, r0.end + shift);
+              tee.replace(r1, e.newText);
+              shift = shift + (e.newText.length - r1.length);
+            });
+          }).then(() => { console.info("Edit done"); });
+        })
+        .catch((err) => {
+          console.error("applyEdits FAIL", err);
+        });
+    });
+  } else {
+    console.info("no edits to apply, it seems");
+  }
+}
 
 function jumpToDefinition(editor) {
   if (
