@@ -53,6 +53,14 @@
           "filters": {
             "syntaxes": ["go"]
           }
+        },
+        {
+          "title": "Format File",
+          "command": "go.formatFile",
+          "when": "editorHasFocus",
+          "filters": {
+            "syntaxes": ["go"]
+          }
         }
       ]
     }

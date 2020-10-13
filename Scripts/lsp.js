@@ -45,6 +45,7 @@ exports.LspRangeToRange = function (document, range) {
   return new Range(rangeStart, rangeEnd);
 };
 
+// Apply a TextDocumentEdit
 // https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocumentEdit
 exports.ApplyTextDocumentEdit = function (tde) {
   if (tde && tde.textDocument && tde.edits) {
@@ -52,21 +53,7 @@ exports.ApplyTextDocumentEdit = function (tde) {
     nova.workspace
       .openFile(tde.textDocument.uri)
       .then((editor) => {
-        // Start an edit session
-        editor
-          .edit((tee) => {
-            // Iterate the edits supplied from the server
-            var shift = 0;
-            tde.edits.forEach((e) => {
-              var r0 = exports.LspRangeToRange(editor.document, e.range);
-              var r1 = new Range(r0.start + shift, r0.end + shift);
-              tee.replace(r1, e.newText);
-              shift = shift + (e.newText.length - r1.length);
-            });
-          })
-          .then(() => {
-            console.info(`${tde.edits.length} changes applied`);
-          });
+        exports.ApplyTextEdits(editor, tde.edits);
       })
       .catch((err) => {
         console.error('error opening file', err);
@@ -75,3 +62,20 @@ exports.ApplyTextDocumentEdit = function (tde) {
     console.info('no edits to apply, it seems');
   }
 };
+
+// Apply a TextEdit[]
+// https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textEdit
+exports.ApplyTextEdits = function(editor, edits) {
+  editor.edit((tee) => {
+    var shift = 0;
+    edits.forEach((e) => {
+      var r0 = exports.LspRangeToRange(editor.document, e.range);
+      var r1 = new Range(r0.start + shift, r0.end + shift);
+      tee.replace(r1, e.newText);
+      shift = shift + (e.newText.length - r1.length);
+    });
+  })
+  .then(() => {
+    console.info(`${edits.length} changes applied to ${editor.document.path}`);
+  });
+}

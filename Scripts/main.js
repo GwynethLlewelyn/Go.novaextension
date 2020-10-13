@@ -103,6 +103,7 @@ class GoLanguageServer {
     
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
     this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
+    this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
   }
 
   stop() {
@@ -143,6 +144,26 @@ function organizeImports(editor) {
             console.info(`Skipping action ${action.kind}`);
           }
         });
+      }
+    }).catch(function(err) {
+      console.error(`${cmd} error!:`, err);
+    });
+  }
+}
+
+function formatFile(editor) {
+  if (langserver && langserver.client()) {
+    var cmd = 'textDocument/formatting';
+    var cmdArgs = {
+      textDocument: {
+        uri: editor.document.uri
+      },
+      options: {}
+    };
+    langserver.client().sendRequest(cmd, cmdArgs).then((response) => {
+      // console.info(`${cmd} response:`, response);
+      if (response !== null && response !== undefined) {
+        lsp.ApplyTextEdits(editor, response);
       }
     }).catch(function(err) {
       console.error(`${cmd} error!:`, err);
