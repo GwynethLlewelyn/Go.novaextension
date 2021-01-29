@@ -35,5 +35,33 @@
       "default": "gopls",
       "filetype": ["public.unix-executable"]
     }
-  ]
+  ],
+  "commands": {
+      "editor": [
+        {
+          "title": "Jump to Definition",
+          "command": "go.jumpToDefinition",
+          "when": "editorHasFocus",
+          "filters": {
+            "syntaxes": ["go"]
+          }
+        },
+        {
+          "title": "Organize Imports",
+          "command": "go.organizeImports",
+          "when": "editorHasFocus",
+          "filters": {
+            "syntaxes": ["go"]
+          }
+        },
+        {
+          "title": "Format File",
+          "command": "go.formatFile",
+          "when": "editorHasFocus",
+          "filters": {
+            "syntaxes": ["go"]
+          }
+        }
+      ]
+    }
 }
