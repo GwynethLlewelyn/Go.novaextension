@@ -13,6 +13,7 @@ exports.deactivate = function () {
     langserver = null;
   }
   // shouldn't we remove /tmp/gopls.log? (gwyneth 20210129)
+  nova.fs.remove('/tmp/gopls.log'); // if it doesn't exist, does nothing (20210130)
 };
 
 class GoLanguageServer {
