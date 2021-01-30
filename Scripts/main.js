@@ -12,6 +12,7 @@ exports.deactivate = function () {
     langserver.stop();
     langserver = null;
   }
+  // shouldn't we remove /tmp/gopls.log? (gwyneth 20210129)
 };
 
 class GoLanguageServer {
@@ -84,7 +85,16 @@ class GoLanguageServer {
 
     var clientOptions = {
       syntaxes: ['go'],
+      initializationOptions: { gopls: {
+        "ui.documentation.hoverKind": "SingleLine"
+      }
+    }
+       // does nothing (gwyneth 20210119)
     };
+
+    if (nova.inDevMode()) {
+      console.info('gopls client options:', JSON.stringify(clientOptions));
+    }
 
     var client = new LanguageClient(
       'gopls',
@@ -100,7 +110,7 @@ class GoLanguageServer {
     } catch (err) {
       console.error(err);
     }
-    
+
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
     this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
     this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
@@ -130,7 +140,7 @@ function organizeImports(editor) {
       range: lsp.RangeToLspRange(editor.document, editor.selectedRange),
       context: { diagnostics: [] }
     };
-    
+
     langserver.client().sendRequest(cmd, cmdArgs).then((response) => {
       // console.info(`${cmd} response:`, response);
       if (response !== null && response !== undefined) {
@@ -242,5 +252,5 @@ function jumpToDefinition(editor) {
       }
     }
   })
-  
+
 }

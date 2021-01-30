@@ -1,3 +1,4 @@
+![Go Nova Extension Logo](https://github.com/GwynethLlewelyn/Go.novaextension/blob/master/Images/Go-Nova-Banner.png?raw=true)
 # Go Language Definition for Nova
 
 A quick &amp; dirty Go language definition for the (upcoming) [Panic Nova](https://panic.com/nova) editor.
