@@ -118,7 +118,7 @@ class GoLanguageServer {
       console.error(err);
     }
 
-    //
+    // Code by @apexskier introduced by @jfieber
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
     this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
     this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
@@ -160,6 +160,8 @@ class GoLanguageServer {
   }
 }
 
+// Code by @apexskier introduced by @jfieber
+// This uses some code developed by Microsoft — see [Microsoft Public License (MS-PL)](https://opensource.org/licenses/MS-PL)
 function organizeImports(editor) {
   if (langserver && langserver.client()) {
     var cmd = 'textDocument/codeAction';
