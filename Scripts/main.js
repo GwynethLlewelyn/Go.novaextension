@@ -84,13 +84,19 @@ class GoLanguageServer {
       console.info('gopls server options:', JSON.stringify(serverOptions));
     }
 
+    // Recent versions of Nova can also send initializationOptions. The syntax
+    //  is not obvious, because Microsoft and Google use so confusing notations
+    //  which are mutually incomprehensible (MS uses TypeScript, Google uses Go).
+    // See https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+    // (gwyneth 20210131)
     var clientOptions = {
       syntaxes: ['go'],
       initializationOptions: { gopls: {
         "ui.documentation.hoverKind": "SingleLine"
       }
     }
-       // does nothing (gwyneth 20210119)
+    // The above does nothing (gwyneth 20210119)
+    //  so we'll try sending a request later to change the configuration
     };
 
     if (nova.inDevMode()) {
@@ -115,6 +121,24 @@ class GoLanguageServer {
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
     this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
     this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
+
+    // last but not least, try to change the configuration to disallow Markdown,
+    //  since Nova automatically says that it can handle it... but then doesn't.
+    // See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_didChangeConfiguration (gwyneth 20210131)
+    if (nova.inDevMode()) {
+      console.info("executing method: ‘workspace/didChangeConfiguration’,");
+    }
+    params = {
+        gopls: { // settings:
+          "ui.documentation.hoverKind": "SingleLine"
+        }
+    };
+    // This returns a Promise and/or error
+    // See Nova docs at https://docs.nova.app/api-reference/language-client/#sendrequestmethod-params (gwyneth 20210131)
+    reqResult = client.sendRequest("workspace/didChangeConfiguration", params);
+    if (nova.inDevMode()) {
+      console.info("Request returned: ", JSON.stringify(reqResult));
+    }
   }
 
   stop() {
