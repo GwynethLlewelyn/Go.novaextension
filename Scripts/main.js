@@ -118,6 +118,7 @@ class GoLanguageServer {
       console.error(err);
     }
 
+    //
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
     this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
     this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
@@ -135,9 +136,13 @@ class GoLanguageServer {
     };
     // This returns a Promise and/or error
     // See Nova docs at https://docs.nova.app/api-reference/language-client/#sendrequestmethod-params (gwyneth 20210131)
-    reqResult = client.sendRequest("workspace/didChangeConfiguration", params);
-    if (nova.inDevMode()) {
-      console.info("Request returned: ", JSON.stringify(reqResult));
+    try {
+      reqResult = client.sendRequest("workspace/didChangeConfiguration", params);
+      if (nova.inDevMode()) {
+        console.info("Request returned: ", JSON.stringify(reqResult));
+      }
+    } catch (err) {
+        console.error("Attempt to change configuration failed with error: ", err);
     }
   }
 
