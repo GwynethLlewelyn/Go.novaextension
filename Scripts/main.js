@@ -129,7 +129,7 @@ class GoLanguageServer {
     if (nova.inDevMode()) {
       console.info("executing method: ‘workspace/didChangeConfiguration’,");
     }
-    params = {
+    var params = {
         gopls: { // settings:
           "ui.documentation.hoverKind": "SingleLine"
         }
