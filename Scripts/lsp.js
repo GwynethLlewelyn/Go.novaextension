@@ -3,6 +3,7 @@
 //
 // Adding the original license terms from Microsoft, as shown on @apexskier's
 //  own files (gwyneth 20200130)
+// Probably this is the [Microsoft Public License (MS-PL)](https://opensource.org/licenses/MS-PL)
 //
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
