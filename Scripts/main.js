@@ -130,16 +130,18 @@ class GoLanguageServer {
       console.info("executing method: ‘workspace/didChangeConfiguration’,");
     }
     var params = {
-        gopls: { // settings:
-          "ui.documentation.hoverKind": "SingleLine"
+        settings: {
+          gopls: { // settings:
+            "ui.documentation.hoverKind": "SingleLine"
+          }
         }
     };
     // This returns a Promise and/or error
     // See Nova docs at https://docs.nova.app/api-reference/language-client/#sendrequestmethod-params (gwyneth 20210131)
     try {
-      reqResult = client.sendRequest("workspace/didChangeConfiguration", params);
+      var reqResult = client.sendRequest("workspace/didChangeConfiguration", params);
       if (nova.inDevMode()) {
-        console.info("Request returned: ", JSON.stringify(reqResult));
+        console.info("Configuration change request returned: ", JSON.stringify(reqResult));
       }
     } catch (err) {
         console.error("Attempt to change configuration failed with error: ", err);
