@@ -24,7 +24,7 @@ func (u *User) Greeting() string {
 /*
 	Hey, this is a comment
 */
-// TODO(gwyneth): Change everything
+//TODO(gwyneth): Change everything
 func main() {
 	// huh
 	// add a comment here
@@ -54,7 +54,9 @@ func main() {
 
 	pointer := *User
 
-	if i,err := 1; err == nil {
+	i := 1
+
+	if i > 0, err != nil {
 		// do something
 	} else {
 		// do something else somewhere

@@ -1,3 +1,9 @@
+## Version 0.3.2
+
+- Changed some of the code to comply better with the latest extension template included with Nova 4.3 — this may, or may not, fix some crashing issues (because things were called differently before)
+- Force `gopls` to use plain text instead of Markdown, on a single line; it's not as nice, but at least it works
+- Apparently there was some issue with Nova's library extension server earlier on, and that's why the earlier version failed, it should get fixed sooner or later
+
 ## Version 0.3.1
 
 - Bumping the version because something went wrong with the upload

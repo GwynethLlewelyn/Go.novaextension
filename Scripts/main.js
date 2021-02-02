@@ -9,7 +9,7 @@ exports.activate = function () {
 exports.deactivate = function () {
   // Clean up state before the extension is deactivated
   if (langserver) {
-    langserver.stop();
+    langserver.deactivate();  // conforming to newer Nova templates
     langserver = null;
   }
   // shouldn't we remove /tmp/gopls.log? (gwyneth 20210129)
@@ -62,10 +62,20 @@ class GoLanguageServer {
     }
   }
 
-  start() {
+  deactivate() {
+    this.stop();
+  }
+
+  start(path) {  // seems that it now requires an extra variable... which we won't use
+    // Check if `gopls` is already running; this is acording to the new extension template (gwyneth 20210202)
+    if (this.languageClient) {
+      this.languageClient.stop();
+      nova.subscriptions.remove(this.languageClient);
+    }
+
     // Basic server options
     var serverOptions = {
-      path: nova.config.get('go-nova.gopls-path', 'string') || 'gopls',
+      path: nova.config.get('go-nova.gopls-path', 'string') || 'gopls' || path,
       args: ['serve'],
     };
 
@@ -91,9 +101,9 @@ class GoLanguageServer {
     // (gwyneth 20210131)
     var clientOptions = {
       syntaxes: ['go'],
-      initializationOptions: { gopls: {
+      initializationOptions: {
+        "hoverKind": "SingleLine",  // one of these ought to do the trick
         "ui.documentation.hoverKind": "SingleLine"
-      }
     }
     // The above does nothing (gwyneth 20210119)
     //  so we'll try sending a request later to change the configuration
@@ -111,10 +121,14 @@ class GoLanguageServer {
     );
 
     try {
+      // Start the client
       client.start();
+
+      // Add the client to the subscriptions to be cleaned up
       nova.subscriptions.add(client);
       this.languageClient = client;
     } catch (err) {
+      // If the .start() method throws, it's likely because the path to the language server is invalid
       console.error(err);
     }
 
@@ -122,6 +136,9 @@ class GoLanguageServer {
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
     this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
     this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
+
+/*
+    // Currently disabled, because it might be interfering with... something? I don't know... (gwyneth 20210202)
 
     // last but not least, try to change the configuration to disallow Markdown,
     //  since Nova automatically says that it can handle it... but then doesn't.
@@ -146,6 +163,7 @@ class GoLanguageServer {
     } catch (err) {
         console.error("Attempt to change configuration failed with error: ", err);
     }
+    */
   }
 
   stop() {

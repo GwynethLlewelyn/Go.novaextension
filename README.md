@@ -15,6 +15,8 @@ Additionally, much of the more intricate and obscure issues have been solved by 
 
 **Note:** This is still an **alpha** version with reasonably working syntax highlighting and some extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued by unstability issues and frequent crashing. See below for some guidelines.
 
+If nothing here works for you, you might try to use Spicer Matthews' own [GoTools](https://extensions.panic.com/extensions/cloudmanic/cloudmanic.GoTools/) extension. The syntax highlighting should be about the same.
+
 # Installation
 
 Once activated, files ending in `*.go` should automatically be recognised (and formatted) as Go language files. Similarly, `*.tmpl` [Go template files](https://golang.google.cn/pkg/html/template/) will also be recognised<sup id="a1">[1](#f1)</sup>.
