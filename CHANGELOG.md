@@ -1,3 +1,7 @@
+## Version 0.3.1
+
+- Bumping the version because something went wrong with the upload
+
 ## Version 0.3.0
 
 - Major rewriting of the code base, mostly thanks to the generous work provided by @jfieber and @seripap. Thanks guys!
