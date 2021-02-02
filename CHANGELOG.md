@@ -1,3 +1,15 @@
+## Version 0.3.0
+
+- Major rewriting of the code base, mostly thanks to the generous work provided by @jfieber and @seripap. Thanks guys!
+- LSP interfacing with `gopls` now works! But don't expect miracles, we haven't still figured out all of it. Use `brew install gopls`.
+- A few extension preferences were added by @jfieber (namely, turning LSP on and off, etc.); also, for development purposes, `gopls` will write some (cryptic) logs under `/tmp/gopls.log`
+- Added more references to licenses; we are now including open-source code from Microsoft (I never though I'd ever write this in my lifetime! 😳🤓)
+- Added more blahblahblah to the [README.md](README.md) (and a few markdown tricks!)
+- New logo (ok, this is trivial, but I'm trying to keep up with Panic's re-styling! 😅)
+- To-do: figure out why `gopls` sends raw Markdown that Nova doesn't seem to understand
+- To-do: understand why the extension crashes so often (at least in dev mode); it's possible that some cleanup code is missing and/or broken
+- Tested under Nova 4.3
+
 ## Version 0.2.1
 
 - Small JSON change from 'vendor' to 'organization' according to the new specs for the Nova Beta 1.0b18 (195066)
