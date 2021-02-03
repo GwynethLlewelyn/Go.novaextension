@@ -2,7 +2,7 @@
 
 # Go Language Definition for Nova
 
-An attempt to build a Go language definition for the [Panic Nova](https://panic.com/nova) editor.
+An attempt to build a Go language definition for the [Panic Nova](https://panic.com/nova) editor, using the Language Server Protocol (LSP) with Google's official `gopls` language server for Go.
 
 ## ☠️☢️⚠️ Warning! ⚠️☢️☠️
 
@@ -23,7 +23,7 @@ Additionally, much of the more intricate and obscure issues have been solved by 
 
 **Note:** This is still an **alpha** version with reasonably working syntax highlighting and some extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued by unstability issues and frequent crashing. See below for some guidelines.
 
-If nothing here works for you, you might try to use Spicer Matthews' own [GoTools](nova://extension?id=cloudmanic.GoTools "This link will open only in Nova") extension. The syntax highlighting should be about the same.
+If nothing here works for you, you might try to use Spicer Matthews' own [GoTools](nova://extension?id=cloudmanic.GoTools "This link will open only in Nova") extension. The syntax highlighting should be about the same — and that extension should not crash!
 
 # Installation
 
