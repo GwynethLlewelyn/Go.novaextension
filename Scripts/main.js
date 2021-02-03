@@ -18,6 +18,12 @@ exports.deactivate = function () {
 
 class GoLanguageServer {
   constructor() {
+    // From the new template for extensions using LSP (gwyneth 20210203)
+    // Observe the configuration setting for the server's location, and restart the server on change
+    nova.config.observe('go-nova.gopls-path', function(path) {
+        this.start(path);
+    }, this);
+
     // Handle preference change for enable/disable.
     nova.config.onDidChange(
       'go-nova.enable-gopls',
@@ -67,7 +73,7 @@ class GoLanguageServer {
   }
 
   start(path) {  // seems that it now requires an extra variable... which we won't use
-    // Check if `gopls` is already running; this is acording to the new extension template (gwyneth 20210202)
+    // Check if gopls is already running; this is acording to the new extension template (gwyneth 20210202)
     if (this.languageClient) {
       this.languageClient.stop();
       nova.subscriptions.remove(this.languageClient); // redundant, .stop() allegedly does this, but that's what we've got on the new template... (gwyneth 20210202)
@@ -102,14 +108,15 @@ class GoLanguageServer {
     var clientOptions = {
       syntaxes: ['go'],
       initializationOptions: {
-        // "hoverKind": "SingleLine",  // one of these ought to do the trick
-        "ui.documentation.hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202)
-        "ui.completion.usePlaceHolders": true  // ...whatever this does...
+        "hoverKind": "SingleLine", // one of these ought to do the trick
+        //"ui.documentation.hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202)
+        "ui.completion.usePlaceHolders": true,  // ...whatever this does...
+        "usePlaceHolders": true  // trying out which one works (gwyneth 20210203)
       }
     };
 
     if (nova.inDevMode()) {
-      console.info('gopls client options:', JSON.stringify(clientOptions));
+      console.info("gopls client options:", JSON.stringify(clientOptions));
     }
 
     var client = new LanguageClient(
@@ -128,23 +135,43 @@ class GoLanguageServer {
       this.languageClient = client;
     } catch (err) {
       // If the .start() method throws, it's likely because the path to the language server is invalid
-      console.error(err);
+      console.error("Couldn't start the gopls server; check path. Error was: ", err);
     }
 
     // Code by @apexskier introduced by @jfieber
-    this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
-    this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
-    this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
+    try {
+      this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
+      this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
+      this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
+    } catch(err) {
+      console.error("Could not register editor commands: ", err);
+    }
   }
 
   stop() {
     if (this.languageClient) {
-      this.commandJump.dispose();
-      this.commandOrganizeImports.dispose();
-      this.commandFormatFile.dispose();
-      this.languageClient.stop();
-      nova.subscriptions.remove(this.languageClient);
-      this.languageClient = null;
+      try {
+        if (this.commandJump && isDisposable(this.commandJump)) {
+          this.commandJump.dispose();
+        }
+        if (this.commandOrganizeImports && isDisposable(this.commandOrganizeImports)) {
+          this.commandOrganizeImports.dispose();
+        }
+        if (this.commandFormatFile && isDisposable(this.commandFormatFile)) {
+          this.commandFormatFile.dispose();
+        }
+      } catch(err) {
+        console.error("While stopping, disposing the editor commands failed: ", err);
+      }
+      try {
+        this.languageClient.stop();
+        nova.subscriptions.remove(this.languageClient);
+        this.languageClient = null;
+      } catch (err) {
+        console.error("Could not stop languageClient and/or remove it from subscriptions: ", err);
+      }
+    } else {
+      console.error("For some reason, Nova tried to stop a languageClient that wasn't running.");
     }
   }
 
@@ -183,6 +210,8 @@ function organizeImports(editor) {
     }).catch(function(err) {
       console.error(`${cmd} error!:`, err);
     });
+  } else {
+    console.error("organizeImports() called, but gopls language server is not running");
   }
 }
 
@@ -203,6 +232,8 @@ function formatFile(editor) {
     }).catch(function(err) {
       console.error(`${cmd} error!:`, err);
     });
+  } else {
+    console.error("formatFile() called, but gopls language server is not running");
   }
 }
 
@@ -212,8 +243,8 @@ function jumpToDefinition(editor) {
     langserver.client() === null ||
     langserver.client() === undefined
   ) {
-    console.info('gopls language server is not running')
-    return
+    console.info("jumpToDefinition() called, but gopls language server is not running");
+    return;
   }
   var selectedRange = editor.selectedRange
   selectedPosition =
@@ -224,8 +255,8 @@ function jumpToDefinition(editor) {
   if (!selectedPosition) {
     nova.workspace.showWarningMessage(
       "Couldn't figure out what you've selected."
-    )
-    return
+    );
+    return;
   }
   var params = {
     textDocument: {
@@ -272,7 +303,7 @@ function jumpToDefinition(editor) {
             }
           })
           .catch(function (err) {
-            console.info('Failed in the jump', err)
+            console.info('Failed in the jump', err);
           })
       }
     }
