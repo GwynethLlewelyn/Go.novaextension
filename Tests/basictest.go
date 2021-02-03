@@ -4,6 +4,11 @@ import (
 	"fmt"
 )
 
+// foo bar cat.
+func foo(s string) {
+}
+
+
 type User struct {
 	FirstName string
 	LastName string
