@@ -2,6 +2,10 @@
 
 - Finally figured out how to turn hover Markdown off! Next step: figuring out how to _fix_ it...
 - Banner logo is back, I thought it made a difference when downloading the extension, but no: the problem lies elsewhere on Nova's servers (as of writing, they're on it and trying to fix things)
+- Fixed a few extra things, again, to comply with the extension template
+- Tried to incorporate @jfieber's changes (a few options now appear on the Editor menu, but they don't do much; I know that they're _working_, since they _do_ get `gopls` to write things on the log)
+- Updated license to display contributors (Nova won't show it, though)
+- Updated README with some extra thanks and a warning that downloading this extension/updating it may fail due to some as-yet-unsolved issues with Panic's Nova Extension Library server (this plugin is not the only one being affected)
 
 ## Version 0.3.2
 
