@@ -1,3 +1,9 @@
+## Version 0.3.4
+
+- Many of the crashes are related to objects which haven't been correctly initialised, or, worse, released (google for `KVO_IS_RETAINING_ALL_OBSERVERS_OF_THIS_OBJECT_IF_IT_CRASHES_AN_OBSERVER_WAS_OVERRELEASED_OR_SMASHED`); this release attempts to fix some of those errors
+- Added more `try{...}catch` constructs in order to see some (possibly hidden) errors _before_ Nova crashes
+- Slightly changed a few functions to better deal with the differences in handling extensions with a Language Server, compared to earlier Nova versions
+
 ## Version 0.3.3
 
 - Finally figured out how to turn hover Markdown off! Next step: figuring out how to _fix_ it...
