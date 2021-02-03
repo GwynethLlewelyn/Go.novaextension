@@ -56,7 +56,7 @@ func main() {
 
 	i := 1
 
-	if i > 0, err != nil {
+	if i > 0 && err != nil {
 		// do something
 	} else {
 		// do something else somewhere

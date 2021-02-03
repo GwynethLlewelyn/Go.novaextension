@@ -1,3 +1,8 @@
+## Version 0.3.3
+
+- Finally figured out how to turn hover Markdown off! Next step: figuring out how to _fix_ it...
+- Banner logo is back, I thought it made a difference when downloading the extension, but no: the problem lies elsewhere on Nova's servers (as of writing, they're on it and trying to fix things)
+
 ## Version 0.3.2
 
 - Changed some of the code to comply better with the latest extension template included with Nova 4.3 — this may, or may not, fix some crashing issues (because things were called differently before)

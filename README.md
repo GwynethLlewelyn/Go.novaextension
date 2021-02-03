@@ -1,8 +1,16 @@
-![Go Nova Extension Logo](https://github.com/GwynethLlewelyn/Go.novaextension/blob/master/Images/Go-Nova-Banner.png?raw=true)
+![Go Nova Extension Logo](https://github.com/GwynethLlewelyn/Go.novaextension/blob/master/Images/extension/Go-Nova-Banner.png?raw=true)
 
 # Go Language Definition for Nova
 
 An attempt to build a Go language definition for the [Panic Nova](https://panic.com/nova) editor.
+
+## ☠️☢️⚠️ Warning! ⚠️☢️☠️
+
+It seems that some plugins are having some difficulty being downloaded from Nova's official Extension Library. Panic is actively working on it, but if you cannot apply this update automatically, you'll have to do it manually, cloning from <https://github.com/GwynethLlewelyn/Go.novaextension/> and manually installing the extension.
+
+Hopefully this gets fixed soon! 🤞
+
+## 🙏 Thanks 🙏
 
 My personal thanks to the major contributors of this project, without whom this extension would never been working:
 
@@ -15,7 +23,7 @@ Additionally, much of the more intricate and obscure issues have been solved by 
 
 **Note:** This is still an **alpha** version with reasonably working syntax highlighting and some extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued by unstability issues and frequent crashing. See below for some guidelines.
 
-If nothing here works for you, you might try to use Spicer Matthews' own [GoTools](https://extensions.panic.com/extensions/cloudmanic/cloudmanic.GoTools/) extension. The syntax highlighting should be about the same.
+If nothing here works for you, you might try to use Spicer Matthews' own [GoTools](nova://extension?id=cloudmanic.GoTools "This link will open only in Nova") extension. The syntax highlighting should be about the same.
 
 # Installation
 
@@ -55,7 +63,7 @@ Suggestions and bug reports are more than welcome, but please take into account 
 
 # Well-known bugs
 
-1. Right now, the one that baffles us most is why we *are* getting Markdown from `gopls` but somehow Nova is confused and renders it as plain text (which is... weird). There are options to make `gopls` change from Markdown to plain text — so that Nova might at least display a simple one-liner, albeit unformatted — but it seems hard to figure out *how* to pass that option from Nova to `gopls` in a way that `gopls` understands.
+1. Right now, the one that baffles us most is why we *are* getting Markdown from `gopls` but somehow Nova is confused and renders it as plain text (which is... weird). I think I managed to make `gopls` change from Markdown to plain text — so that Nova might at least display a simple one-liner, albeit unformatted.
 2. The extension crashes a *lot*, especially when in Development mode. There are no 'obvious' errors showing up on the console or the error logs, so this has been hard to track down (I suspect that there is some cleaning up that is missing). If you're plagued with these constant crashes, just uncheck the *Enable Language Server* checkbox on the Preferences for this extension. You will still get Go syntax highlighting, but the additional goodies provided by LSP will be turned off.
 3. There are a few hooks allowing you to *theoretically* run some post-formatting tools to comply with Google's style guidelines for Go, as well as a way to check that all imports are properly referenced, etc. With this version, there is no documentation yet for *how* to activate those extra features, but hopefully this will be addressed in the very near future... fingers crossed!
 

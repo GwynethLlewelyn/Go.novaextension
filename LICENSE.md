@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2020 Gwyneth Llewelyn
+Copyright (c) 2020-2021 Gwyneth Llewelyn, John Fieber, Daniel Seripap
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

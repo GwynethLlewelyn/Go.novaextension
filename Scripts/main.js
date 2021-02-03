@@ -70,7 +70,7 @@ class GoLanguageServer {
     // Check if `gopls` is already running; this is acording to the new extension template (gwyneth 20210202)
     if (this.languageClient) {
       this.languageClient.stop();
-      nova.subscriptions.remove(this.languageClient);
+      nova.subscriptions.remove(this.languageClient); // redundant, .stop() allegedly does this, but that's what we've got on the new template... (gwyneth 20210202)
     }
 
     // Basic server options
@@ -102,11 +102,10 @@ class GoLanguageServer {
     var clientOptions = {
       syntaxes: ['go'],
       initializationOptions: {
-        "hoverKind": "SingleLine",  // one of these ought to do the trick
-        "ui.documentation.hoverKind": "SingleLine"
-    }
-    // The above does nothing (gwyneth 20210119)
-    //  so we'll try sending a request later to change the configuration
+        // "hoverKind": "SingleLine",  // one of these ought to do the trick
+        "ui.documentation.hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202)
+        "ui.completion.usePlaceHolders": true  // ...whatever this does...
+      }
     };
 
     if (nova.inDevMode()) {
@@ -136,39 +135,13 @@ class GoLanguageServer {
     this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
     this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
     this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
-
-/*
-    // Currently disabled, because it might be interfering with... something? I don't know... (gwyneth 20210202)
-
-    // last but not least, try to change the configuration to disallow Markdown,
-    //  since Nova automatically says that it can handle it... but then doesn't.
-    // See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_didChangeConfiguration (gwyneth 20210131)
-    if (nova.inDevMode()) {
-      console.info("executing method: ‘workspace/didChangeConfiguration’,");
-    }
-    var params = {
-        settings: {
-          gopls: { // settings:
-            "ui.documentation.hoverKind": "SingleLine"
-          }
-        }
-    };
-    // This returns a Promise and/or error
-    // See Nova docs at https://docs.nova.app/api-reference/language-client/#sendrequestmethod-params (gwyneth 20210131)
-    try {
-      var reqResult = client.sendRequest("workspace/didChangeConfiguration", params);
-      if (nova.inDevMode()) {
-        console.info("Configuration change request returned: ", JSON.stringify(reqResult));
-      }
-    } catch (err) {
-        console.error("Attempt to change configuration failed with error: ", err);
-    }
-    */
   }
 
   stop() {
     if (this.languageClient) {
       this.commandJump.dispose();
+      this.commandOrganizeImports.dispose();
+      this.commandFormatFile.dispose();
       this.languageClient.stop();
       nova.subscriptions.remove(this.languageClient);
       this.languageClient = null;

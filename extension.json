@@ -3,7 +3,7 @@
   "name": "Go",
   "organization": "Gwyneth Llewelyn",
   "description": "Go Language Definition for Nova",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues",
   "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
   "homepage": "https://gwynethllewelyn.net",
@@ -35,5 +35,33 @@
       "default": "gopls",
       "filetype": ["public.unix-executable"]
     }
-  ]
+  ],
+  "commands": {
+    "editor": [
+      {
+        "title": "Jump to Definition",
+        "command": "go.jumpToDefinition",
+        "when": "editorHasFocus",
+        "filters": {
+            "syntaxes": ["go"]
+        }
+      },
+      {
+        "title": "Organize Imports",
+        "command": "go.organizeImports",
+        "when": "editorHasFocus",
+        "filters": {
+            "syntaxes": ["go"]
+        }
+      },
+      {
+        "title": "Format File",
+        "command": "go.formatFile",
+        "when": "editorHasFocus",
+        "filters": {
+            "syntaxes": ["go"]
+        }
+      }
+    ]
+  }
 }
