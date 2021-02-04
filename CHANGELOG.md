@@ -1,3 +1,9 @@
+## Version 0.3.5
+
+- Basically just bumping the version to remove the warning about not being possible to update this extension via the Nova Extension Library. Panic fixed everything!
+- Amazingly, the reorganisation of import files, via `gopls`, seems to work! 😲 Try to mouse-select your imports and click on **Editor > Go > Organize Imports** — this should do *something*
+- The extension still crashes if it is deactivated/reactivated; also, it now might get a bit confused when figuring out if the `gopls` server is running or not. Sometimes it requires a reset (via the check box on Preferences).
+
 ## Version 0.3.4
 
 - Many of the crashes are related to objects which haven't been correctly initialised, or, worse, released (google for `KVO_IS_RETAINING_ALL_OBSERVERS_OF_THIS_OBJECT_IF_IT_CRASHES_AN_OBSERVER_WAS_OVERRELEASED_OR_SMASHED`); this release attempts to fix some of those errors

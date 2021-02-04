@@ -4,12 +4,6 @@
 
 An attempt to build a Go language definition for the [Panic Nova](https://panic.com/nova) editor, using the Language Server Protocol (LSP) with Google's official `gopls` language server for Go.
 
-## ☠️☢️⚠️ Warning! ⚠️☢️☠️
-
-It seems that some plugins are having some difficulty being downloaded from Nova's official Extension Library. Panic is actively working on it, but if you cannot apply this update automatically, you'll have to do it manually, cloning from <https://github.com/GwynethLlewelyn/Go.novaextension/> and manually installing the extension.
-
-Hopefully this gets fixed soon! 🤞
-
 ## 🙏 Thanks 🙏
 
 My personal thanks to the major contributors of this project, without whom this extension would never been working:
