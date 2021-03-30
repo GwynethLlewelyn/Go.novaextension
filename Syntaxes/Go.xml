@@ -86,11 +86,11 @@
 				<context behavior="subtree" />
 			</symbol>
 			<starts-with>
-				<expression>/\*(?!\*/)[*!](?:\*(?!/$)|/(?!$))*</expression>
+				<expression>\/\*(?!\*\/)[*!](?:\*(?!\/$)|\/(?!$))*</expression>
 				<capture number="0" name="go.punctuation.definition.begin"/>
 			</starts-with>
 			<ends-with>
-				<expression>\*/</expression>
+				<expression>\*\/</expression>
 				<capture number="0" name="go.punctuation.definition.end"/>
 			</ends-with>
 			<subscopes>
@@ -108,7 +108,7 @@
 				<context behavior="subtree" />
 			</symbol>
 			<starts-with>
-				<expression>(\/\/([!/])/*)</expression>
+				<expression>(\/\/([!\/])\/*)</expression>
 				<capture number="1" name="go.punctuation.definition.begin"/>
 			</starts-with>
 			<ends-with>
@@ -127,11 +127,11 @@
 				<context behavior="subtree" />
 			</symbol>
 			<starts-with>
-				<expression>/\*\s*([*#=~+-]{3,}(?!/)|!)</expression>
+				<expression>\/\*\s*([*#=~+-]{3,}(?!\/)|!)</expression>
 				<capture number="0" name="go.punctuation.definition.begin"/>
 			</starts-with>
 			<ends-with>
-				<expression>\*/</expression>
+				<expression>\*\/</expression>
 				<capture number="0" name="go.punctuation.definition.end"/>
 			</ends-with>
 		</scope>
@@ -146,11 +146,11 @@
 				<context behavior="subtree" />
 			</symbol>
 			<starts-with>
-				<expression>/\*</expression>
+				<expression>\/\*</expression>
 				<capture number="0" name="go.punctuation.definition.begin" />
 			</starts-with>
 			<ends-with>
-				<expression>\*/</expression>
+				<expression>\*\/</expression>
 				<capture number="0" name="go.punctuation.definition.end" />
 			</ends-with>
 		</scope>
@@ -174,7 +174,7 @@
 			</subscopes>
 		</scope>
 	</collection>
-	
+
 	<!-- Definitions -->
 	<collection name="definitions">
 		<!-- Functions -->
@@ -392,7 +392,7 @@
 				<string>var</string>
 			</strings>
 		</scope>
-		
+
 	</collection>
 
 	<!-- Values -->

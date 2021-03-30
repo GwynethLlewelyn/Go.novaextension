@@ -1,3 +1,7 @@
+## Version 0.3.6
+
+- Adding support for editing `go.mod` files, because, well, in my Mac, `.mod` files are thought to be audio files, thus not easily opened with Nova
+
 ## Version 0.3.5
 
 - Basically just bumping the version to remove the warning about not being possible to update this extension via the Nova Extension Library. Panic fixed everything!

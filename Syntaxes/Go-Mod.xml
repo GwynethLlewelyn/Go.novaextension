@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax name="go-mod">
+	<meta>
+		<name>Go Modules List</name>
+		<type>markup</type>
+		<preferred-file-extension>mod</preferred-file-extension>
+	</meta>
+
+	<detectors>
+		<extension priority="1.0">mod</extension>
+	</detectors>
+
+	<comments>
+		<single>
+			<expression>//</expression>
+		</single>
+	</comments>
+
+	<surrounding-pairs>
+		<pair open="&apos;" close="&apos;" />
+		<pair open="&quot;" close="&quot;" />
+	</surrounding-pairs>
+
+	<scopes>
+		<!-- Pairs -->
+		<scope name="go-mod.pair">
+			<starts-with>
+				<expression>^\s*([a-zA-Z0-9_.-]+)\s*(=| )</expression>
+				<capture number="1" name="go-mod.pair.identifier.key" />
+				<capture number="2" name="go-mod.pair.operator.equals" />
+			</starts-with>
+			<ends-with>
+				<expression>$</expression>
+			</ends-with>
+			<subscopes>
+				<include syntax="self" collection="values" />
+			</subscopes>
+		</scope>
+
+		<!-- Comments -->
+		<scope name="go-mod.comment.single" spell-check="true">
+			<expression>\/\/.*$</expression>
+		</scope>
+	</scopes>
+
+	<collections>
+		<!-- Values -->
+		<collection name="values">
+			<include syntax="self" collection="strings" />
+			<scope name="go-mod.value.boolean">
+				<strings>
+					<string>true</string>
+					<string>false</string>
+				</strings>
+			</scope>
+			<scope name="go-mod.value.number">
+				<expression>\b(\-|\+)?(?:\d+(?:\.\d*)?|(?:\.\d+))\b</expression>
+			</scope>
+		</collection>
+
+		<!-- Strings -->
+		<collection name="strings">
+			<scope name="go-mod.string.double-quoted">
+				<expression>&quot;(?:[^&quot;\\]|\\.)*(?:&quot;|$)</expression>
+			</scope>
+			<scope name="go-mod.string.single-quoted">
+				<expression>&apos;(?:[^&apos;\\]|\\.)*(?:&apos;|$)</expression>
+			</scope>
+		</collection>
+	</collections>
+</syntax>

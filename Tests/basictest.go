@@ -29,17 +29,18 @@ func (u *User) Greeting() string {
 /*
 	Hey, this is a comment
 */
-//TODO(gwyneth): Change everything
+// TODO(gwyneth): Change everything
 func main() {
 	// huh
 	// add a comment here
 	// and another
 	/* inclie */
 
-	var a = 'w'
-	t := make(1, 2, 1.23, 00.00, `\x08"`)
-	b := append(a, b)
-	complexNumber := 4+3i
+	// var a = 'w'
+	var a []byte
+	t := make([]byte, 1, 2)
+	b := append(t, a[0], byte(1), 00.00, byte(0x08))
+	complexNumber := 4+3i // not quite correctly formatted
 	exponential := -3.1E5
 	hex := 0x0f - 0X0f0f
 	octal := 0777
@@ -51,18 +52,23 @@ func main() {
 	)
 	Main := "var"
 	heredoc := `hi`
-	fmt.Println("nothing works...") // was
-	fmt.Println("Clearly nothing yet...")
+	fmt.Println("nothing works...", heredoc) // was
+	fmt.Println("Clearly nothing yet...", google, x, c, t, b, complexNumber, exponential, octal)
 	fmt.Println("wth?...")
 	println("something")
-	fmt.Printf("%s", Main)
+	fmt.Printf("%s%v", Main, hex)
 
-	pointer := *User
+	var user User
+
+	pointer := &user
 
 	i := 1
 
+	var err error
+
 	if i > 0 && err != nil {
 		// do something
+		pointer.Greeting()
 	} else {
 		// do something else somewhere
 		fmt.Println("Something else")
