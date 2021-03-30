@@ -8,12 +8,11 @@ import (
 func foo(s string) {
 }
 
-
 type User struct {
 	FirstName string
-	LastName string
-	Age int
-	Admin bool
+	LastName  string
+	Age       int
+	Admin     bool
 }
 
 // myFunc does something not very useful.
@@ -40,15 +39,15 @@ func main() {
 	var a []byte
 	t := make([]byte, 1, 2)
 	b := append(t, a[0], byte(1), 00.00, byte(0x08))
-	complexNumber := 4+3i // not quite correctly formatted
-	exponential := -3.1E5
-	hex := 0x0f - 0X0f0f
+	complexNumber := 4 + 3i // not quite correctly formatted
+	exponential := -3.1e5
+	hex := 0x0f - 0x0f0f
 	octal := 0777
 
 	var (
 		google []byte
-		x string
-		c int64
+		x      string
+		c      int64
 	)
 	Main := "var"
 	heredoc := `hi`
