@@ -136,11 +136,11 @@
 				<capture number="2" name="go.identifier.function.name" />
 			</starts-with>
 			<ends-with>
-				<expression>\(?&lt;=\}\)</expression>
+				<expression>(?&lt;=\})</expression>
 			</ends-with>
 			<subscopes>
 				<cut-off>
-					<expression>\(?=\b\(?:func|if|else|while|for|range)\b\)</expression>
+					<expression>(?=\b(?:func|if|else|while|for|range)\b)</expression>
 				</cut-off>
 				<include syntax="self" collection="comments" />
 				<include syntax="self" collection="arguments" />
@@ -175,7 +175,7 @@
 			</ends-with>
 			<subscopes>
 				<cut-off>
-					<expression>(?=\b(?:func|if|else|while|for|range)\b)</expression>
+					<expression>\(?=\b(?:func|if|else|while|for|range)\b\)</expression>
 				</cut-off>
 				<include syntax="self" collection="comments" />
 				<include syntax="self" collection="arguments" />
@@ -208,7 +208,7 @@
 
 		<scope name="go.definition.variable">
 			<symbol type="variable" scope="local" />
-			<expression>(?&lt;!\.)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s*(\=)</expression>
+			<expression>([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s*(:\=)</expression>
 			<capture number="1" name="go.identifier.name" />
 			<capture number="2" name="go.operator" />
 		</scope>
@@ -257,7 +257,7 @@
 	<collection name="return-arguments">
 		<scope name="go.arguments.return.single">
 			<symbol type="argument" />
-			<expression>[!\(]\b(\*?)()[A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b[!\(]</expression>
+			<expression>[!\(]\b(\*?)\(\b\)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b[!\(]</expression>
 			<capture number="1" name="go.operator" />
 			<capture number="2" name="types" />
 		</scope>
@@ -368,7 +368,10 @@
 			<expression>\b0[0-7]+\b</expression>
 		</scope>
 		<scope name="go.value.number.complex">
-			<expression>\b\-?(?:\d+(?:\.\d*)?|(?:\.\d+))\b*\+\b*\-?(?:\d+(?:\.\d*)?|(?:\.\d+))i\b</expression>
+			<expression>(?:(\d+(?:(?:\.\d+)?(?:e[+\-]\d+)?)?)?(?:\s?[+\-]\s?))?(\d+(?:(?:\.\d+)?(?:e[+\-]\d+)?)?)?([iI])\s*</expression>
+				<capture number="1" name="go.value.number.float">
+				<capture number="2" name="go.value.number.float">
+				<capture number="3" name="go.operator">
 		</scope>
 		<scope name="go.value.number.float">
 			<!--Equivalent: .0001, 0.0001, 1e-4, 1.0e-4-->
@@ -479,18 +482,22 @@
 				</strings>
 		</scope>
 	</collection>
+
 	<!-- Identifiers -->
 	<collection name="identifiers">
-		<!-- Package -->
+		<!-- Import - works as package -->
 		<scope name="go.identifier.global.package">
-			<expression>\b(package)\s+([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
-						<capture number="1" name="go.string-template.package" />
-						<capture number="2" name="go.identifier" />
+			<symbol type="package" />
+			<starts-with>
+				<expression>\b(import)\s+</expression>
+					<capture number="1" name="go.identifier" />
+			</starts-with>
+			<expression>[\(\b]?([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*\s+)?\"([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+)\"\)?</expression>
+					<capture number="1" name="go.string-template.package" />
+					<capture number="2" name="go.string-template" />
 		</scope>
-		<!-- Import -->
-		<scope name="go.string-template.import">
-			<expression>import</expression>
-		</scope>
+
+		<!-- Function -->
 		<scope name="go.identifier.core.function">
 			<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 				<string>append</string>
@@ -519,6 +526,7 @@
 			</strings>
 		</scope>
 		<scope name="go.identifier.standard-packages">
+			<symbol type="package" />
 			<strings prefix="&quot;" suffix="&quot;">
 				<string>adler32</string>
 				<string>aes</string>

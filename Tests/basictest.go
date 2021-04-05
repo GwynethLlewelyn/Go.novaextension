@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	myPtr "github.com/NoName/NoPackage"
 )
 
 // foo bar cat.
@@ -39,7 +40,7 @@ func main() {
 	var a []byte
 	t := make([]byte, 1, 2)
 	b := append(t, a[0], byte(1), 00.00, byte(0x08))
-	complexNumber := 4 + 3i // not quite correctly formatted
+	complexNumber := 4.04 + -3.76i // not quite correctly formatted
 	exponential := -3.1e5
 	hex := 0x0f - 0x0f0f
 	octal := 0777

@@ -155,7 +155,7 @@
 		<collection name="paths">
 			<scope name="go-mod.path">
 				<symbol type="value">
-					<expression>[a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+</expression>
+					<expression>[a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+</expression>
 				</symbol>
 			</scope>
 		</collection>
@@ -163,7 +163,7 @@
 		<!-- Each line of the requires block -->
 		<collection name="requirements">
 			<scope name="go-mod.requirements">
-				<expression>\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+)\s*(\S*).*$</expression>
+				<expression>\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\s*(\S*).*$</expression>
 				<capture number="1" name="go-mod.path" />
 				<capture number="2" name="go-mod.value" />
 			</scope>
@@ -172,7 +172,7 @@
 		<!-- Each line of the replacement block -->
 		<collection name="replacements">
 			<scope name="go-mod.replacement">
-				<expression>^\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+)\s(\=\>)\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+)\b(\S*).*$</expression>
+				<expression>^\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\s(\=\>)\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\b(\S*).*$</expression>
 				<capture number="1" name="go-mod.path" />
 				<capture number="2" name="go-mod.operator" />
 				<capture number="3" name="go-mod.path" />
