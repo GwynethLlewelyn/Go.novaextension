@@ -2,13 +2,23 @@
 <syntax name="go-mod">
 	<meta>
 		<name>Go Modules List</name>
-		<type>markup</type>
+		<type>structured</type>
 		<preferred-file-extension>mod</preferred-file-extension>
 	</meta>
 
 	<detectors>
-		<extension priority="1.0">mod</extension>
+		<!-- Mandatory name for go.mod is, well, go.mod -->
+		<filename priority="1.0">go.mod</filename>
 	</detectors>
+
+	<indentation>
+		<increase>
+			<expression>(\([^)\"']*$)</expression>
+		</increase>
+		<decrease>
+			<expression>^\s*(\s*/\*.*\*/\s*)*[\)\\]</expression>
+		</decrease>
+	</indentation>
 
 	<comments>
 		<single>
@@ -16,16 +26,35 @@
 		</single>
 	</comments>
 
+	<brackets>
+		<pair open="(" close=")" />
+	</brackets>
+
 	<surrounding-pairs>
 		<pair open="&apos;" close="&apos;" />
 		<pair open="&quot;" close="&quot;" />
+		<pair open="(" close=")" />
 	</surrounding-pairs>
 
 	<scopes>
-		<!-- Pairs -->
+		<!-- Module -->
+		<scope name="go-mod.module">
+			<expression>(module)\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9_\.\/]+)</expression>
+			<capture number="1" name="go-mod.keyword" />
+			<capture number="2" name="go-mod.path" />
+		</scope>
+
+		<!-- go version; note that it uses semantic versioning -->
+		<scope name="go-mod.go-version">
+			<expression>(go)\s*([0-9]*\.?[0-9]+\.?[0-9]*)</expression>
+			<capture number="1" name="go-mod.keyword" />
+			<capture number="2" name="go-mod.value.number" />
+		</scope>
+
+		<!-- KV Pairs (probably not used) -->
 		<scope name="go-mod.pair">
 			<starts-with>
-				<expression>^\s*([a-zA-Z0-9_.-]+)\s*(=| )</expression>
+				<expression>^\s*([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_.-]+)\s*(=| )</expression>
 				<capture number="1" name="go-mod.pair.identifier.key" />
 				<capture number="2" name="go-mod.pair.operator.equals" />
 			</starts-with>
@@ -40,6 +69,38 @@
 		<!-- Comments -->
 		<scope name="go-mod.comment.single" spell-check="true">
 			<expression>\/\/.*$</expression>
+		</scope>
+
+		<!-- required modules -->
+		<scope name="go-mod.require">
+			<starts-with>
+				<expression>(require)\s*(\()</expression>
+				<capture number="1" name="go-mod.keyword" />
+				<capture number="2" name="go-mod.bracket" />
+			</starts-with>
+			<ends-with>
+				<expression>(\))</expression>
+				<capture number="1" name="go-mod.bracket" />
+			</ends-with>
+			<subscopes>
+				<include syntax="self" collection="requirements" />
+			</subscopes>
+		</scope>
+
+		<!-- module replacements -->
+		<scope name="go-mod.replacement">
+			<starts-with>
+				<expression>(replace)\s*(\()</expression>
+				<capture number="1" name="go-mod.keyword" />
+				<capture number="2" name="go-mod.bracket" />
+			</starts-with>
+			<ends-with>
+				<expression>(\))</expression>
+				<capture number="1" name="go-mod.bracket" />
+			</ends-with>
+			<subscopes>
+				<include syntax="self" collection="replacements" />
+			</subscopes>
 		</scope>
 	</scopes>
 
@@ -65,6 +126,57 @@
 			</scope>
 			<scope name="go-mod.string.single-quoted">
 				<expression>&apos;(?:[^&apos;\\]|\\.)*(?:&apos;|$)</expression>
+			</scope>
+		</collection>
+
+		<!-- Keywords -->
+		<collection name="keywords">
+			<scope name="go-mod.keyword">
+				<symbol type="keyword" />
+				<strings>
+					<string>module</string>
+					<string>go</string>
+					<string>require</string>
+					<string>replace</string>
+				</strings>
+			</scope>
+		</collection>
+
+		<!-- There is just one operator, the replacement operator => -->
+		<collection name="operators">
+			<scope name="go-mod.operator">
+				<strings>
+					<string>=></string>
+				</strings>
+			</scope>
+		</collection>
+
+		<!-- Paths -->
+		<collection name="paths">
+			<scope name="go-mod.path">
+				<symbol type="value">
+					<expression>[a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+</expression>
+				</symbol>
+			</scope>
+		</collection>
+
+		<!-- Each line of the requires block -->
+		<collection name="requirements">
+			<scope name="go-mod.requirements">
+				<expression>\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+)\s*(\S*).*$</expression>
+				<capture number="1" name="go-mod.path" />
+				<capture number="2" name="go-mod.value" />
+			</scope>
+		</collection>
+
+		<!-- Each line of the replacement block -->
+		<collection name="replacements">
+			<scope name="go-mod.replacement">
+				<expression>^\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+)\s(\=\>)\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9-_\.\/]+)\b(\S*).*$</expression>
+				<capture number="1" name="go-mod.path" />
+				<capture number="2" name="go-mod.operator" />
+				<capture number="3" name="go-mod.path" />
+				<capture number="4" name="go-mod.value" />
 			</scope>
 		</collection>
 	</collections>

@@ -1,6 +1,7 @@
 ## Version 0.3.6
 
 - Adding support for editing `go.mod` files, because, well, in my Mac, `.mod` files are thought to be audio files, thus not easily opened with Nova
+- Cleaning up syntax definition file (correcting regex)
 
 ## Version 0.3.5
 

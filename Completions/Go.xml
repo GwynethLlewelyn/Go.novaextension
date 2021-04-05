@@ -54,6 +54,7 @@
 
 	<!--Language keywords-->
 	<set name="go.keywords.control">
+		<!-- TODO: Note that the control structures below are for PHP, not Go -->
 		<completion string="break">
 			<behavior>
 				<append-dynamic>

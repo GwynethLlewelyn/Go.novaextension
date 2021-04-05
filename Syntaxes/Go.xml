@@ -2,9 +2,10 @@
 <syntax name="go">
 <meta>
 	<name>Go</name>
-	<type>script</type>
+	<type>compiled</type>
 	<preferred-file-extension>go</preferred-file-extension>
 	<default-extension>go</default-extension>
+	<!-- <parent>c</parent> technically not correct, but might help -->
 </meta>
 
 <detectors>
@@ -16,7 +17,7 @@
 		<expression>(\{[^}\"']*$)|(\[[^\]\"']*$)|(\([^)\"']*$)</expression>
 	</increase>
 	<decrease>
-		<expression>^\s*(\s*/\*.*\*/\s*)*[\}\]\)\\]</expression>
+		<expression>^\s*(\s*\/\*.*\*\/\s*)*[\}\]\)\\]</expression>
 	</decrease>
 </indentation>
 
@@ -59,6 +60,7 @@
 </surrounding-pairs>
 
 <symbols>
+<!-- probably unnecessary since we got rid of documentation expression rules -->
 	<documentation mode="before" match="comment" match-multiple="go.comment.single" />
 	<documentation mode="after" match="comment" match-multiple="go.comment.single" />
 </symbols>
@@ -80,61 +82,7 @@
 <collections>
 	<!-- Comments -->
 	<collection name="comments">
-		<!-- Inline documentation style comments -->
-		<scope name="go.comment.multiline.documentation">
-			<symbol type="comment">
-				<context behavior="subtree" />
-			</symbol>
-			<starts-with>
-				<expression>\/\*(?!\*\/)[*!](?:\*(?!\/$)|\/(?!$))*</expression>
-				<capture number="0" name="go.punctuation.definition.begin"/>
-			</starts-with>
-			<ends-with>
-				<expression>\*\/</expression>
-				<capture number="0" name="go.punctuation.definition.end"/>
-			</ends-with>
-			<subscopes>
-				<scope name="markup.link">
-					<expression>(?i)\b(?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()&lt;>]+|\(([^\s()&lt;>]+|(\([^\s()&lt;>]+\)))*\))+(?:\(([^\s()&lt;>]+|(\([^\s()&lt;>]+\)))*\)|[^\s`!()\[\]{};:'".,&lt;>?«»“”‘’])</expression>
-				</scope>
-				<scope name="keyword">
-					<expression>(?i)(?&lt;=\s|^)@[a-z]+\b</expression>
-				</scope>
-			</subscopes>
-		</scope>
-		<!-- This one is a bit weird; it's technically a line comment, but because it spans multiple lines we need to make the system think of it like a block comment -->
-		<scope name="go.comment.multiline.line-by-line.documentation">
-			<symbol type="comment">
-				<context behavior="subtree" />
-			</symbol>
-			<starts-with>
-				<expression>(\/\/([!\/])\/*)</expression>
-				<capture number="1" name="go.punctuation.definition.begin"/>
-			</starts-with>
-			<ends-with>
-				<expression>^(?!\s*\/\/\2)</expression>
-			</ends-with>
-		</scope>
-		<scope name="go.comment.single.documentation">
-			<expression>(\/\/[!\/])(.*)$[\n\r]*</expression>
-			<capture number="1" name="go.punctuation.definition.begin"/>
-			<capture number="2" name="go.comment.content" />
-		</scope>
-		<!-- Bookmark comments -->
-		<!-- A common pattern when commenting is to use comment bookmarks that consist of a comment with a number of repeating characters to break up the document, followed by some text as the heading; this tries to captures that use-case scenario in a flexible way. The single exclamation point with a space before it is Coda's bookmark syntax -->
-		<scope name="go.comment.multiline.bookmark">
-			<symbol type="comment">
-				<context behavior="subtree" />
-			</symbol>
-			<starts-with>
-				<expression>\/\*\s*([*#=~+-]{3,}(?!\/)|!)</expression>
-				<capture number="0" name="go.punctuation.definition.begin"/>
-			</starts-with>
-			<ends-with>
-				<expression>\*\/</expression>
-				<capture number="0" name="go.punctuation.definition.end"/>
-			</ends-with>
-		</scope>
+		<!-- Note: simplified this, because it was capturing comments wrongly -->
 		<!-- Normal comments below: single, multiline -->
 		<scope name="go.comment.single" spell-check="true">
 			<expression>(\/\/)(.*)$</expression>
@@ -188,11 +136,11 @@
 				<capture number="2" name="go.identifier.function.name" />
 			</starts-with>
 			<ends-with>
-				<expression>(?&lt;=\})</expression>
+				<expression>\(?&lt;=\}\)</expression>
 			</ends-with>
 			<subscopes>
 				<cut-off>
-					<expression>(?=\b(?:func|if|else|while|for|range)\b)</expression>
+					<expression>\(?=\b\(?:func|if|else|while|for|range)\b\)</expression>
 				</cut-off>
 				<include syntax="self" collection="comments" />
 				<include syntax="self" collection="arguments" />
@@ -392,7 +340,6 @@
 				<string>var</string>
 			</strings>
 		</scope>
-
 	</collection>
 
 	<!-- Values -->
@@ -693,7 +640,7 @@
 			<expression>[\(\[\)\]]</expression>
 		</scope>
 		<scope name="go.operator">
-			<expression>(\+|\-|\*|/|%|\+\+|\-\-|:\=|\=|\=\=|!\=|\+\=|\-\=|\*\=|/\=|%\=|\&lt;|\&gt;|\&lt;\=|\&lt;\-|\&gt;=|\=\=\=|!\=\=|&amp;&amp;|\||\|\||!|\^|&amp;|\&lt;\&lt;|\&gt;\&gt;|~|\.\.\.)</expression>
+			<expression>(\+|\-|\*|\/|%|\+\+|\-\-|:\=|\=|\=\=|!\=|\+\=|\-\=|\*\=|\/\=|%\=|\&lt;|\&gt;|\&lt;\=|\&lt;\-|\&gt;=|\=\=\=|!\=\=|&amp;&amp;|\||\|\||!|\^|&amp;|\&lt;\&lt;|\&gt;\&gt;|~|\.\.\.)</expression>
 		</scope>
 	</collection>
 
