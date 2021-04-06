@@ -74,8 +74,7 @@ class GoLanguageServer {
 
   start(path) {  // seems that it now requires an extra variable...
     // Check if gopls is already running; this is acording to the new extension template (gwyneth 20210202)
-    // Note: these days, it might be enough to check this.languageClient.running (gwyneth 20210406)
-    if (this.languageClient || this.languageClient.running) {
+    if (this.languageClient) {
       this.languageClient.stop();
       nova.subscriptions.remove(this.languageClient); // redundant, .stop() allegedly does this, but that's what we've got on the new template... (gwyneth 20210202)
     }
@@ -156,11 +155,11 @@ class GoLanguageServer {
             if (editor.document.syntax === 'go') {
                 if (nova.config.get('go-nova.format-on-save', 'boolean')) {
                     console.info('Entering FormatOnSave for "' + editor.document.uri + '"...');
-                    return commands
-                        .formatFile(editor)
-                        .then(() => {
-                            console.info('FormatOnSave done!');
-                        });
+                    try {
+                      formatFile(editor);                      
+                    } catch(err) {
+                      console.error("Re-formatting failed miserably");
+                    }                    
                 }
             }
         }, this);
@@ -174,7 +173,7 @@ class GoLanguageServer {
   // According to the revised Nova documentation, we should only get a stop() iff the server is still
   //  running; but we nevertheless keep the old code around anyway (gwyneth 20210406)
   stop() {
-    if (this.languageClient || this.languageClient.running) {
+    if (this.languageClient) {
       try {
         if (this.commandJump && isDisposable(this.commandJump)) {
           this.commandJump.dispose();
@@ -250,15 +249,24 @@ function formatFile(editor) {
       textDocument: {
         uri: editor.document.uri
       },
-      options: {}
+      options: {
+        tabSize: editor.document.tabLength, 
+        insertSpaces: editor.document.softTabs
+      }
     };
+    if (nova.inDevMode()) {
+      console.info("formatFile(): cmdArgs is ", JSON.stringify(cmdArgs, undefined, 4));
+    }
     langserver.client().sendRequest(cmd, cmdArgs).then((response) => {
-      // console.info(`${cmd} response:`, response);
-      if (response !== null && response !== undefined) {
-        lsp.ApplyTextEdits(editor, response);
+      if (nova.inDevMode()) {
+        console.info(`formatFile(): '${cmd}' response:`, JSON.stringify(response, undefined, 4));
+      }
+      if (response !== null && response !== undefined && response !== []) {
+//        lsp.ApplyTextEdits(editor, response);
+        lsp.ApplyTextEditsRevamped(editor, response);  // trying to deal with replace/delete/insert issues (gwyneth 20210406)
       }
     }).catch(function(err) {
-      console.error(`${cmd} error!:`, err);
+      console.error(`formatFile(): ${cmd} error! - `, err);
     });
   } else {
     console.error("formatFile() called, but gopls language server is not running");
