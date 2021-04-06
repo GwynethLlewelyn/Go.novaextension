@@ -144,8 +144,8 @@ exports.ApplyTextEditsRevamped = function(editor, edits) {
   editor.edit((tee) => { // tee - text editor edit (that's how Panic calls it!)
     edits.forEach((e) => {
       // very, very inefficient for now, but we will improve later using just one loop (gwyneth 20210406)
-      var startPosition = NovaPositionsFromLSPRangeElement(editor.document, e.range.start.line, e.range.start.character);
-      var endPosition = NovaPositionsFromLSPRangeElement(editor.document, e.range.end.line, e.range.end.character);
+      var startPosition = exports.NovaPositionsFromLSPRangeElement(editor.document, e.range.start.line, e.range.start.character);
+      var endPosition = exports.NovaPositionsFromLSPRangeElement(editor.document, e.range.end.line, e.range.end.character);
       
       if (e.newText == null || e.newText == undefined || e.newText == "") {  // this means we're going to _delete_ the characters in the range, and that the range must be valid
         var deletedRange = new Range(startPosition, endPosition);

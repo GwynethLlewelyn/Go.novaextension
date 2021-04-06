@@ -249,9 +249,9 @@ function formatFile(editor) {
       textDocument: {
         uri: editor.document.uri
       },
-      options: {
-        tabSize: editor.document.tabLength, 
-        insertSpaces: editor.document.softTabs
+      options: { // https://github.com/microsoft/language-server-protocol/blob/gh-pages/_specifications/specification-3-17.md#document-formatting-request--leftwards_arrow_with_hook (gwyneth 20210406)
+        tabSize: editor.tabLength, 
+        insertSpaces: editor.softTabs
       }
     };
     if (nova.inDevMode()) {
