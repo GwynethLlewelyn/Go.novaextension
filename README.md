@@ -15,15 +15,15 @@ Additionally, much of the more intricate and obscure issues have been solved by 
 
 - [@apexskier](https://github.com/apexskier) (Cameron Little)
 
-**Note:** This is still an **alpha** version with reasonably working syntax highlighting and some extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued by unstability issues and frequent crashing. See below for some guidelines.
+**Note:** This is still an **alpha** version with reasonably working syntax highlighting and extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued by unstability issues and frequent crashing. See below for some guidelines.
 
 If nothing here works for you, you might try to use Spicer Matthews' own [GoTools](nova://extension?id=cloudmanic.GoTools "This link will open only in Nova") extension. The syntax highlighting should be about the same — and that extension should not crash!
 
 # Installation
 
-Once activated, files ending in `*.go` should automatically be recognised (and formatted) as Go language files. Similarly, `*.tmpl` [Go template files](https://golang.google.cn/pkg/html/template/) will also be recognised<sup id="a1">[1](#f1)</sup>.
+Once activated, files ending in `*.go` should automatically be recognised (and formatted) as Go language files. Similarly, `*.tmpl` [Go template files](https://golang.google.cn/pkg/html/template/) will also be recognised<sup id="a1">[1](#f1)</sup>, and from version 0.4.0 onwards, even `go.mod` gets its own syntax highlighting.
 
-In either case, additional Go specific features are available by installing the [Go Language Server](https://github.com/golang/tools/blob/master/gopls/README.md), `gopls`.
+Additional Go specific features are available by installing the [Go Language Server](https://github.com/golang/tools/blob/master/gopls/README.md), `gopls`.
 
 If you use [Homebrew](https://brew.sh/) to install your packages, all you need is to type:
 
@@ -32,6 +32,10 @@ If you use [Homebrew](https://brew.sh/) to install your packages, all you need i
 If not, you can install it as described [here](https://github.com/golang/tools/blob/master/gopls/doc/user.md#installation).
 
 Then tick the *Enable Language Server* checkbox in the Preferences for this extension. If `gopls` is (correctly) installed in your search `PATH`, the extension should find it. If it is elsewhere, set that where in the Preferences for this extension as well. Note that Nova's language server support and `gopls` are both new and evolving. Many things don't work quite right yet<sup id="a2">[2](#f2)</sup>.
+
+If you wish to have `gopls` re-formatting your code when saving, click on *Format/Organise Imports when saving file*.
+
+More information on the capabilities of `gopls` as well as its design/implementation considerations can be found [on GitHub](https://github.com/golang/tools/blob/master/gopls/doc/design/design.md). As Nova gets better and better integration with Language Servers, and as Google also improves `gopls` to be more compliant with Microsoft's LSP definition, a lot of functionality will appear 'automagically' by simply upgrading Nova or `gopls`.
 
 # Disclaimers
 

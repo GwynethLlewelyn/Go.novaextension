@@ -72,9 +72,10 @@ class GoLanguageServer {
     this.stop();
   }
 
-  start(path) {  // seems that it now requires an extra variable... which we won't use
+  start(path) {  // seems that it now requires an extra variable...
     // Check if gopls is already running; this is acording to the new extension template (gwyneth 20210202)
-    if (this.languageClient) {
+    // Note: these days, it might be enough to check this.languageClient.running (gwyneth 20210406)
+    if (this.languageClient || this.languageClient.running) {
       this.languageClient.stop();
       nova.subscriptions.remove(this.languageClient); // redundant, .stop() allegedly does this, but that's what we've got on the new template... (gwyneth 20210202)
     }
@@ -137,21 +138,43 @@ class GoLanguageServer {
       this.languageClient = client;
     } catch (err) {
       // If the .start() method throws, it's likely because the path to the language server is invalid
-      console.error("Couldn't start the gopls server; check path. Error was: ", err);
+      console.error("Couldn't start the gopls server; please check path. Error was: ", err);
     }
 
     // Code by @apexskier introduced by @jfieber
+    // Registers the commands that can be invoked from the menu as well as the format-on-save
     try {
       this.commandJump = nova.commands.register('go.jumpToDefinition', jumpToDefinition);
       this.commandOrganizeImports = nova.commands.register('go.organizeImports', organizeImports);
       this.commandFormatFile = nova.commands.register('go.formatFile', formatFile);
+      // The code below comes from @jfieber (slightly adapted) (gwyneth 20210406)
+      this.formatOnSave = nova.workspace.onDidAddTextEditor((editor) => {
+        editor.onDidSave(() => {
+            console.log('Saved complete');
+        });
+        editor.onWillSave((editor) => {
+            if (editor.document.syntax === 'go') {
+                if (nova.config.get('go-nova.format-on-save', 'boolean')) {
+                    console.info('Entering FormatOnSave for "' + editor.document.uri + '"...');
+                    return commands
+                        .formatFile(editor)
+                        .then(() => {
+                            console.info('FormatOnSave done!');
+                        });
+                }
+            }
+        }, this);
+    }, this);
+
     } catch(err) {
       console.error("Could not register editor commands: ", err);
     }
   }
 
+  // According to the revised Nova documentation, we should only get a stop() iff the server is still
+  //  running; but we nevertheless keep the old code around anyway (gwyneth 20210406)
   stop() {
-    if (this.languageClient) {
+    if (this.languageClient || this.languageClient.running) {
       try {
         if (this.commandJump && isDisposable(this.commandJump)) {
           this.commandJump.dispose();
@@ -161,6 +184,9 @@ class GoLanguageServer {
         }
         if (this.commandFormatFile && isDisposable(this.commandFormatFile)) {
           this.commandFormatFile.dispose();
+        }
+        if (this.formatOnSave && isDisposable(this.formatOnSave)) {
+          this.formatOnSave.dispose();
         }
       } catch(err) {
         console.error("While stopping, disposing the editor commands failed: ", err);
@@ -183,7 +209,7 @@ class GoLanguageServer {
 }
 
 // Code by @apexskier introduced by @jfieber
-// This uses some code developed by Microsoft — see [Microsoft Public License (MS-PL)](https://opensource.org/licenses/MS-PL)
+// This may use some code developed by Microsoft — see [Microsoft Public License (MS-PL)](https://opensource.org/licenses/MS-PL)
 function organizeImports(editor) {
   if (langserver && langserver.client()) {
     var cmd = 'textDocument/codeAction';
@@ -310,5 +336,4 @@ function jumpToDefinition(editor) {
       }
     }
   })
-
 }
