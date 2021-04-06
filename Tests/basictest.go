@@ -1,8 +1,10 @@
 package main
 
 import (
+	_ "errors"
 	"fmt"
-	myPtr "github.com/NoName/NoPackage"
+
+	myPtr "golang.org/x/net/html/atom"
 )
 
 // foo bar cat.
@@ -23,11 +25,12 @@ func myFunc(a string, b string) bool {
 
 // List of methods.
 func (u *User) Greeting() string {
-	return fmt.Sprintf("Dear %s %s", u.FirstName, u.LastName)
+	var blip myPtr.Atom
+	return fmt.Sprintf("Dear %s %s %v", u.FirstName, u.LastName, blip)
 }
 
 /*
-	Hey, this is a comment
+Hey, this is a comment
 */
 // TODO(gwyneth): Change everything
 func main() {
@@ -35,12 +38,13 @@ func main() {
 	// add a comment here
 	// and another
 	/* inclie */
+	/// There were some issues with 3 slashes at the beginning
 
 	// var a = 'w'
 	var a []byte
 	t := make([]byte, 1, 2)
 	b := append(t, a[0], byte(1), 00.00, byte(0x08))
-	complexNumber := 4.04 + -3.76i // not quite correctly formatted
+	complexNumber := -4.0436e12 + 3.76i // not quite correctly formatted
 	exponential := -3.1e5
 	hex := 0x0f - 0x0f0f
 	octal := 0777
@@ -56,7 +60,7 @@ func main() {
 	fmt.Println("Clearly nothing yet...", google, x, c, t, b, complexNumber, exponential, octal)
 	fmt.Println("wth?...")
 	println("something")
-	fmt.Printf("%s%v", Main, hex)
+	fmt.Printf("%s%v\n", Main, hex)
 
 	var user User
 

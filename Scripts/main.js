@@ -108,9 +108,11 @@ class GoLanguageServer {
     var clientOptions = {
       syntaxes: ['go'],
       initializationOptions: {
-        "hoverKind": "SingleLine", // one of these ought to do the trick
-        //"ui.documentation.hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202)
-        "ui.completion.usePlaceHolders": true,  // ...whatever this does...
+        // "hoverKind": "SingleLine", // one of these ought to do the trick
+        "hoverKind": "SingleLine",
+        // "ui.documentation.hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202)
+        "staticcheck": true, // using staticcheck.io for further analysis (gwyneth 20210406)
+//        "ui.completion.usePlaceHolders": true,  // ...whatever this does...
         "usePlaceHolders": true  // trying out which one works (gwyneth 20210203)
       }
     };

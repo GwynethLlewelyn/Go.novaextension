@@ -51,21 +51,6 @@
 			<capture number="2" name="go-mod.value.number" />
 		</scope>
 
-		<!-- KV Pairs (probably not used) -->
-		<scope name="go-mod.pair">
-			<starts-with>
-				<expression>^\s*([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_.-]+)\s*(=| )</expression>
-				<capture number="1" name="go-mod.pair.identifier.key" />
-				<capture number="2" name="go-mod.pair.operator.equals" />
-			</starts-with>
-			<ends-with>
-				<expression>$</expression>
-			</ends-with>
-			<subscopes>
-				<include syntax="self" collection="values" />
-			</subscopes>
-		</scope>
-
 		<!-- Comments -->
 		<scope name="go-mod.comment.single" spell-check="true">
 			<expression>\/\/.*$</expression>
@@ -109,18 +94,21 @@
 		<collection name="values">
 			<include syntax="self" collection="strings" />
 			<scope name="go-mod.value.boolean">
+				<symbol type="property" />
 				<strings>
 					<string>true</string>
 					<string>false</string>
 				</strings>
 			</scope>
 			<scope name="go-mod.value.number">
+				<symbol type="property" />
 				<expression>\b(\-|\+)?(?:\d+(?:\.\d*)?|(?:\.\d+))\b</expression>
 			</scope>
 		</collection>
 
 		<!-- Strings -->
 		<collection name="strings">
+			<symbol type="property" />
 			<scope name="go-mod.string.double-quoted">
 				<expression>&quot;(?:[^&quot;\\]|\\.)*(?:&quot;|$)</expression>
 			</scope>
@@ -154,9 +142,8 @@
 		<!-- Paths -->
 		<collection name="paths">
 			<scope name="go-mod.path">
-				<symbol type="value">
-					<expression>[a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+</expression>
-				</symbol>
+				<symbol type="expression" />
+				<expression>[a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+</expression>
 			</scope>
 		</collection>
 
@@ -165,18 +152,18 @@
 			<scope name="go-mod.requirements">
 				<expression>\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\s*(\S*).*$</expression>
 				<capture number="1" name="go-mod.path" />
-				<capture number="2" name="go-mod.value" />
+				<capture number="2" name="go-mod.value.number" />
 			</scope>
 		</collection>
 
 		<!-- Each line of the replacement block -->
 		<collection name="replacements">
 			<scope name="go-mod.replacement">
-				<expression>^\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\s(\=\>)\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\b(\S*).*$</expression>
+				<expression>^\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\s(\=\>)\s*([a-zA-ZÀ-ÖØ-öø-ÿ_\.][A-Za-zÀ-ÖØ-öø-ÿ0-9\-_\.\/]+)\s*([\w\.\-]*).*$</expression>
 				<capture number="1" name="go-mod.path" />
 				<capture number="2" name="go-mod.operator" />
 				<capture number="3" name="go-mod.path" />
-				<capture number="4" name="go-mod.value" />
+				<capture number="4" name="go-mod.value.number" />
 			</scope>
 		</collection>
 	</collections>

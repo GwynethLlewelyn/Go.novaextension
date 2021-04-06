@@ -1,0 +1,18 @@
+module golang.org/x/net
+
+go 1.11
+
+require (
+		golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+		golang.org/x/sys v0.0.0-20200930185726-fdedc70b468f
+		golang.org/x/text v0.3.3
+)
+
+replace (
+	github.com/etcd-io/bbolt => go.etcd.io/bbolt v1.3.5
+	github.com/mholt/caddy => github.com/caddyserver/caddy v1.0.5
+	github.com/nats-io/go-nats => github.com/nats-io/nats.go v1.8.1
+	github.com/nats-io/go-nats-streaming => github.com/nats-io/stan.go v0.5.0
+	github.com/nats-io/nats => github.com/nats-io/nats.go v1.8.0
+	go.uber.org/atomic => github.com/uber-go/atomic v1.5.0
+)
