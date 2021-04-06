@@ -279,7 +279,7 @@
 					<expression>,</expression>
 				</scope>
 				<scope name="go.identifier.argument.return.name">
-					<symbol type="types" />
+					<symbol type="type" />
 					<expression>(?&lt;!\=)\b(\*?)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
 					<capture number="1" name="go.operator" />
 					<capture number="2" name="types" />
@@ -370,17 +370,29 @@
 			<expression>\b0[0-7]+\b</expression>
 		</scope>
 		<scope name="go.value.number.complex">
-			<expression>(?:(\d+(?:(?:\.\d+)?(?:e[+\-]\d+)?)?)?(?:\s?[+\-]\s?))?(\d+(?:(?:\.\d+)?(?:e[+\-]\d+)?)?)?([iI])\s*</expression>
-				<capture number="1" name="go.value.number.float" />
-				<capture number="2" name="go.value.number.float" />
-				<capture number="3" name="go.operator" />
+			<!-- Still not 100% correct but getting closer! (gwyneth 20210406) -->
+			<expression>(-?)((\b\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?)[ \t]*([+\-])[ \t]*((\b\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?)([iI])|(-?)((\b\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?)([iI])</expression>
+				<capture number="1" name="go.operator" /> <!-- Plus or minus sign -->
+				<capture number="3" name="go.value.number.float.real" /> <!-- Real part -->
+				<capture number="5" name="go.value.number.float.exponential" /> <!-- Real part -->
+				<capture number="6" name="go.operator" /> <!-- Mandatory plus sign -->
+				<capture number="8" name="go.value.number.float.real" /> <!-- Imaginary part -->
+				<capture number="10" name="go.value.number.float.exponential" /> <!-- Real part -->
+				<capture number="11" name="go.identifier" /> <!-- The letter i (first alternative) -->
+				<capture number="12" name="go.operator" /> <!-- Plus or minus sign (second alternative-->
+				<capture number="14" name="go.value.number.float.real" /> <!-- Imaginary part (second alternative) -->
+				<capture number="17" name="go.identifier" /> <!-- The letter i (second alternative) -->
 		</scope>
 		<scope name="go.value.number.float">
 			<!--Equivalent: .0001, 0.0001, 1e-4, 1.0e-4-->
-			<expression>\b((([0-9]+)?\.[0-9]+([eE]-?[0-9]+)?)|([0-9]+[eE]-?[0-9]+))\b</expression>
+			<!-- <expression>\b(((\d+)?\.\d+([eE]-?\d+)?)|(\d+[eE]-?\d+))\b</expression> -->
+			<expression>(-?)((\b\d+\.\d*|\.\d+)([eE][-+]?\d+)?)</expression>
+				<capture number="1" name="go.operator" /> <!-- minus sign -->
+				<capture number="2" name="go.value.number.float.real" />
+				<capture number="3" name="go.value.number.float.exponential" />
 		</scope>
 		<scope name="go.value.number.integer">
-			<expression>\b-?[0-9]+\b</expression>
+			<expression>\b-?\d+\b</expression>
 		</scope>
 		<scope name="go.value.number">
 			<expression>\b\-?(?:\d+(?:\.\d*)?|(?:\.\d+))\b</expression>
@@ -453,6 +465,7 @@
 	<!-- Types -->
 	<collection name="types">
 		<scope name="go.identifier.type.core" spell-check="false" lookup="index">
+			<symbol type="type" />
 			<expression>(\b\s+([A-Za-zÀ-ÖØ-öø-ÿ0-9_\[\]]*))</expression>
 			<strings word-boundary="false">
 				<string>bool</string>
@@ -499,6 +512,7 @@
 
 		<!-- Function -->
 		<scope name="go.identifier.core.function">
+			<symbol type="function" />
 			<strings prefix="(?&lt;!\.)" suffix="(?=\()">
 				<string>append</string>
 				<string>cap</string>
@@ -618,14 +632,17 @@
 			</strings>
 		</scope>
 		<scope name="go.identifier.method"> <!-- technically there are no methods in Go, but this will work -->
+			<symbol type="method" />
 			<expression>(\.)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)(?=\()\b</expression>
 			<capture number="1" name="go.punctuation.delimiter.period" />
 			<capture number="2" name="go.identifier.function" />
 		</scope>
 		<scope name="go.identifier.function">
+			<symbol type="function" />
 			<expression>\b(?&lt;!\.)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)(?=\()\b</expression>
 		</scope>
 		<scope name="go.identifier">
+			<symbol type="keyword" />
 			<expression>\b[A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*\b</expression>
 		</scope>
 	</collection>
@@ -683,6 +700,7 @@
 			<expression>,</expression>
 		</scope>
 		<scope>
+			<symbol type="block" />
 			<expression>(\{)|(\}(?:;|(,))?)|(\[)|(\](?:;|(,))?)</expression>
 			<capture number="1" name="go.punctuation.brace.curly.open" />
 			<capture number="2" name="go.punctuation.brace.curly.close" />
@@ -736,6 +754,7 @@
 		</scope>
 		<!--Function Invocation-->
 		<scope>
+			<symbol type="function" />
 			<expression>(\.)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)\s*(\()</expression>
 			<capture number="1" name="punctuation.delimiter.period" />
 			<capture number="2" name="go.variable.function.method" />
@@ -764,7 +783,7 @@
 					<expression>,</expression>
 				</scope>
 				<scope name="go.variable">
-					<symbol type="argument" />
+					<symbol type="variable" />
 					<expression>(?&lt;!\=)\b([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
 					<capture number="1" name="go.variable.name" />
 					<capture number="2" name="go.operator" />
@@ -783,6 +802,7 @@
 			<capture number="2" name="punctuation.brace.round.open" />
 		</scope>
 		<scope>
+			<!-- anything else that remotely looks like a variable will be captured here (gwyneth 20210406) -->
 			<expression>([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)</expression>
 			<capture number="0" name="variable" />
 		</scope>
