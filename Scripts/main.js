@@ -111,7 +111,7 @@ class GoLanguageServer {
         // "hoverKind": "SingleLine", // one of these ought to do the trick
         "hoverKind": "SingleLine",
         // "ui.documentation.hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202)
-        "staticcheck": true, // using staticcheck.io for further analysis (gwyneth 20210406)
+        // "staticcheck": true, // using staticcheck.io for further analysis (gwyneth 20210406)
 //        "ui.completion.usePlaceHolders": true,  // ...whatever this does...
         "usePlaceHolders": true  // trying out which one works (gwyneth 20210203)
       }
@@ -155,10 +155,8 @@ class GoLanguageServer {
             if (editor.document.syntax === 'go') {
                 if (nova.config.get('go-nova.format-on-save', 'boolean')) {
                     console.info('Entering FormatOnSave for "' + editor.document.uri + '"...');
-                    try {
-                      console.group();
+                    try {                      
                       formatFile(editor);
-                      console.groupEnd();                   
                     } catch(err) {
                       console.error("Re-formatting failed miserably");
                     }                    

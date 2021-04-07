@@ -1,10 +1,10 @@
+// Testing formatting/imports
 package main
 
 import (
 	_ "errors"
 	"fmt"
-
-	myPtr "golang.org/x/net/html/atom"
+	myPtr "golang.org/x/net/html/atom" // hnmrs"
 )
 
 // foo bar cat.
@@ -20,10 +20,10 @@ type User struct {
 
 // myFunc does something not very useful.
 func myFunc(a string, b string) bool {
-	return a != b
+	return a != b // no? why the weird error?
 }
 
-// List of methods.
+// Greeting is a list of methods.
 func (u *User) Greeting() string {
 	var blip myPtr.Atom
 	return fmt.Sprintf("Dear %s %s %v", u.FirstName, u.LastName, blip)
@@ -43,9 +43,9 @@ func main() {
 	// var a = 'w'
 	var a []byte
 	t := make([]byte, 1, 2)
-	b := append(t, a[0], byte(1), 00.00, byte(0x08))
-	complexNumber := -4.0436e12 + 3.76i // not quite correctly formatted
-	exponential := -3.1e5
+	b := append(t, a[0], byte(1), 0.00, byte(0x08))
+	complexNumber := -4.0436 + 3.76e-5i // almost correctly formatted/captired
+	exponential := -3.167252381e-12
 	hex := 0x0f - 0x0f0f
 	octal := 0777
 
@@ -62,7 +62,7 @@ func main() {
 	println("something")
 	fmt.Printf("%s%v\n", Main, hex)
 
-	var user User
+	var user User //
 
 	pointer := &user
 

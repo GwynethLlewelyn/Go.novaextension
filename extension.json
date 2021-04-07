@@ -37,8 +37,8 @@
     },
     {
       "key": "go-nova.format-on-save",
-      "title": "Format/Organize Imports when saving file",
-      "description": "Use `gopls` to format file according to Go formatting standards and organize imports when saving (the equivalent of executing `gofmt`, `goimports`, `goreturns`). Requires ``gopls` language server to be active.",
+      "title": "(Experimental) Format/Organize Imports when saving file (DANGEROUS!)",
+      "description": "When saving, use `gopls` to format file according to Go formatting standards and organize imports (the equivalent of executing `gofmt`, `goimports`, `goreturns`). Requires `gopls` language server to be active.\nWARNING: For experimental purposes ONLY! Currently it WILL DESTROY YOUR FILES!",
       "type": "boolean",
       "default": false
     }

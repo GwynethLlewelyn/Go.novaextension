@@ -80,14 +80,14 @@ exports.LspRangeToRange = function (document, range) {
 
 // Apply a TextDocumentEdit
 // https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocumentEdit
-exports.ApplyTextDocumentEdit = function (tde) {
+exports.ApplyTextDocumentEdit = (tde) => {
   if (tde && tde.textDocument && tde.edits) {
     // Obtain a Nova TextEditor for the document
-    nova.workspace
+    return nova.workspace
       .openFile(tde.textDocument.uri)
       .then((editor) => {
 //        exports.ApplyTextEdits(editor, tde.edits);
-        exports.ApplyTextEditsRevamped(editor, tde.edits);  // making an experiment
+        return exports.ApplyTextEditsRevamped(editor, tde.edits);  // making an experiment
       })
       .catch((err) => {
         console.error('error opening file', err);
@@ -99,14 +99,13 @@ exports.ApplyTextDocumentEdit = function (tde) {
 
 // Apply a TextEdit[]
 // https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textEdit
-exports.ApplyTextEdits = function(editor, edits) {
-  editor.edit((tee) => {
-    var shift = 0;
-    edits.forEach((e) => {
+exports.ApplyTextEdits = (editor, edits) => {
+  return editor
+  .edit((tee) => {
+    edits.reverse().forEach((e) => {
       var r0 = exports.LspRangeToRange(editor.document, e.range);
-      var r1 = new Range(r0.start + shift, r0.end + shift);
+      var r1 = new Range(r0.start, r0.end);
       tee.replace(r1, e.newText);
-      shift = shift + (e.newText.length - r1.length);
     });
   })
   .then(() => {
@@ -127,39 +126,39 @@ exports.NovaPositionsFromLSPRangeElement = function(document, lspLine, lspCharac
     const lineLength = lines[lineIndex].length + document.eol.length;
     if (lspLine === lineIndex) {
       position = chars + lspCharacter;
-      break; // we can save a few cycles
+      // break; // we can save a few cycles
     }
     chars += lineLength;
   }
-  if (nova.inDevMode()) {
+/*  if (nova.inDevMode()) {
     console.info(`NovaPositionsFromLSPRangeElement() — LSP Line: ${lspLine}; LSP Column: ${lspCharacter}; Nova Position: ${position}`);
-  }
+  }*/
   return position; 
 }
 
 // ApplyTextEditsRevamped calculates if a bit of formatted has to be inserted, replaced, or removed.
 // Using ApplyTextEdits will just work for inserting formatted text; but we need a bit more logic in our case
 // See also https://github.com/microsoft/language-server-protocol/blob/gh-pages/_specifications/specification-3-17.md#textEdit to understand how insert/replace/remove is signalled by the LSP (gwyneth 20210406)
-exports.ApplyTextEditsRevamped = function(editor, edits) {
-  editor.edit((tee) => { // tee - text editor edit (that's how Panic calls it!)
-    edits.forEach((e) => {
+exports.ApplyTextEditsRevamped = (editor, edits) => {
+  return editor.edit((tee) => { // tee - text editor edit (that's how Panic calls it!)
+    edits.slice().reverse().forEach((e) => {  // stupid, but gopls sends these in *reverse* order!! (gwyneth 20210407)
       // very, very inefficient for now, but we will improve later using just one loop (gwyneth 20210406)
       var startPosition = exports.NovaPositionsFromLSPRangeElement(editor.document, e.range.start.line, e.range.start.character);
       var endPosition = exports.NovaPositionsFromLSPRangeElement(editor.document, e.range.end.line, e.range.end.character);
       
       if (e.newText == null || e.newText == undefined || e.newText == "") {  // this means we're going to _delete_ the characters in the range, and that the range must be valid
-        var deletedRange = new Range(startPosition, endPosition);
+        var deletedRange = new Range(startPosition, endPosition -1);
         tee.delete(deletedRange);
         console.info(`Deleting text from (${e.range.start.line},${e.range.start.character}) to (${e.range.end.line},${e.range.end.character}) [${startPosition}-${endPosition}]`);
       } else if (startPosition == endPosition) { // this means insert a new range
         tee.insert(startPosition, e.newText);
-        console.info(`Inserting ${e.newText} at (${e.range.start.line},${e.range.start.character}) [${startPosition}]`);
+        console.info(`Inserting «${e.newText}» at (${e.range.start.line},${e.range.start.character}) [${startPosition}]`);
       } else if (startPosition < endPosiiton) {
-          var replacedRange = new Range(startPosition, endPosition);
+          var replacedRange = new Range(startPosition, endPosition -1);
           tee.replace(replacedRange, e.newText);
-          console.info(`Replacing from (${e.range.start.line},${e.range.start.character}) to (${e.range.end.line},${e.range.end.character}) [${startPosition}-${endPosition}] with "${e.newText}"`);
+          console.info(`Replacing from (${e.range.start.line},${e.range.start.character}) to (${e.range.end.line},${e.range.end.character}) [${startPosition}-${endPosition}] with «${e.newText}»`);
       } else {
-          console.error(`Something bad happened, we should have never reached this spot! We got LSP range: (${e.range.start.line},${e.range.start.character}) to (${e.range.end.line},${e.range.end.character}), Nova Range: [${startPosition}-${endPosition}], text: "${e.newText}"`);
+          console.error(`Something bad happened, we should have never reached this spot! We got LSP range: (${e.range.start.line},${e.range.start.character}) to (${e.range.end.line},${e.range.end.character}), Nova Range: [${startPosition}-${endPosition}], text: «${e.newText}»`);
       }
     });
   })
