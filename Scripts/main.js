@@ -156,7 +156,9 @@ class GoLanguageServer {
                 if (nova.config.get('go-nova.format-on-save', 'boolean')) {
                     console.info('Entering FormatOnSave for "' + editor.document.uri + '"...');
                     try {
-                      formatFile(editor);                      
+                      console.group();
+                      formatFile(editor);
+                      console.groupEnd();                   
                     } catch(err) {
                       console.error("Re-formatting failed miserably");
                     }                    
@@ -251,7 +253,7 @@ function formatFile(editor) {
       },
       options: { // https://github.com/microsoft/language-server-protocol/blob/gh-pages/_specifications/specification-3-17.md#document-formatting-request--leftwards_arrow_with_hook (gwyneth 20210406)
         tabSize: editor.tabLength, 
-        insertSpaces: editor.softTabs
+        insertSpaces: editor.softTabs != 0
       }
     };
     if (nova.inDevMode()) {
