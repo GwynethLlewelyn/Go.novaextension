@@ -1,8 +1,16 @@
 ## Version 0.4.0
 
-- Nova 5.1 is out
-- Adding support for editing `go.mod` files, because, well, in my Mac, `.mod` files are thought to be audio files, thus not easily opened with Nova
-- Cleaning up syntax definition file (correcting regex)
+- Nova 5.1 is out and it supports Language Servers much better! Enjoy the quasi-IDE environment!
+- Added support for editing `go.mod` files. Note: If you've installed [VLC](https://www.videolan.org/vlc/), `.mod` files are thought to be audio files, thus they're not easily opened with Nova (added `Tests/go.mod.sample` to test it out).
+- *Big* cleaning up of the syntax definition file; all regular expressions have been tested, one by one, and fixed in uncountable cases. Even capturing complex numbers works! Much better syntax highlighting. Incidentally, issue [_#1_](https://github.com/GwynethLlewelyn/Go.novaextension/issues/1) got fixed, after 7 months...
+- The **Editor > Go** menu options for text formatting and reorganising imports work about 80% of the cases. They are now interfacing correctly with `gopls` and retrieving proper replacement information (who'd think that Google would send all updates _in reverse order_?!). So, no need to run any additional external commands for those operations; `gopls` is _supposed_ to do all the work from now on. 
+- Sadly, the option to format/optimise imports on _saving_ is **not** functional. There is an **experimental** checkbox for it on the preferences, but **DO. NOT. CHECK. IT.**. It will _literally_ destroy your files when saving them. Basically, it runs the formatter twice, for some unfathomable reason, and I couldn't find a way to prevent that.
+
+### To-do:
+- Add a checkbox to get your code additionally validated by https://staticcheck.io/. It's easy enough to set up — it's fully integrated by Google in `gopls` itself!
+- Make the _new_ code to convert from Nova ranges into LSP ranges a bit more efficient; or pester Panic to do that conversion available via the JS API (after all, they use it internally!). Note that this is mostly a proof-of-concept version (it's still alpha code, remember? 😉) just to fix an annoying bug that comes from wrong assumptions about `gopls` (other Language Servers seem to work... all have their own quirks).
+- Figure out _why_ `gopls` is running *twice* when saving (thus thrashing everything), although just once when called from the menu options. I've clearly hit a personal limit; this is beyond my ability and knowledge to understand at the moment.
+- Figure out how to install VLC and still have Nova opening `go.mod` files without thinking they're video files!
 
 ## Version 0.3.5
 
