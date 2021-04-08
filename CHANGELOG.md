@@ -1,9 +1,13 @@
+## Version 0.4.1
+
+- Added checkbox on preferences to use https://staticcheck.io/ to do additional code analysis.
+
 ## Version 0.4.0
 
 - Nova 5.1 is out and it supports Language Servers much better! Enjoy the quasi-IDE environment!
 - Added support for editing `go.mod` files. Note: If you've installed [VLC](https://www.videolan.org/vlc/), `.mod` files are thought to be audio files, thus they're not easily opened with Nova (added `Tests/go.mod.sample` to test it out).
 - *Big* cleaning up of the syntax definition file; all regular expressions have been tested, one by one, and fixed in uncountable cases. Even capturing complex numbers works! Much better syntax highlighting. Incidentally, issue [_#1_](https://github.com/GwynethLlewelyn/Go.novaextension/issues/1) got fixed, after 7 months...
-- The **Editor > Go** menu options for text formatting and reorganising imports work about 80% of the cases. They are now interfacing correctly with `gopls` and retrieving proper replacement information (who'd think that Google would send all updates _in reverse order_?!). So, no need to run any additional external commands for those operations; `gopls` is _supposed_ to do all the work from now on. 
+- The **Editor > Go** menu options for text formatting and reorganising imports work about 80% of the cases. They are now interfacing correctly with `gopls` and retrieving proper replacement information (who'd think that Google would send all updates _in reverse order_?!). So, no need to run any additional external commands for those operations; `gopls` is _supposed_ to do all the work from now on.
 - Sadly, the option to format/optimise imports on _saving_ is **not** functional. There is an **experimental** checkbox for it on the preferences, but **DO. NOT. CHECK. IT.**. It will _literally_ destroy your files when saving them. Basically, it runs the formatter twice, for some unfathomable reason, and I couldn't find a way to prevent that.
 
 ### To-do:

@@ -127,13 +127,14 @@ exports.NovaPositionsFromLSPRangeElement = function(document, lspLine, lspCharac
     if (lspLine === lineIndex) {
       position = chars + lspCharacter;
       // break; // we can save a few cycles
+      return position; // get out of the loop as early as possible
     }
     chars += lineLength;
   }
 /*  if (nova.inDevMode()) {
     console.info(`NovaPositionsFromLSPRangeElement() — LSP Line: ${lspLine}; LSP Column: ${lspCharacter}; Nova Position: ${position}`);
   }*/
-  return position; 
+  return position;
 }
 
 // ApplyTextEditsRevamped calculates if a bit of formatted has to be inserted, replaced, or removed.
@@ -145,7 +146,7 @@ exports.ApplyTextEditsRevamped = (editor, edits) => {
       // very, very inefficient for now, but we will improve later using just one loop (gwyneth 20210406)
       var startPosition = exports.NovaPositionsFromLSPRangeElement(editor.document, e.range.start.line, e.range.start.character);
       var endPosition = exports.NovaPositionsFromLSPRangeElement(editor.document, e.range.end.line, e.range.end.character);
-      
+
       if (e.newText == null || e.newText == undefined || e.newText == "") {  // this means we're going to _delete_ the characters in the range, and that the range must be valid
         var deletedRange = new Range(startPosition, endPosition -1);
         tee.delete(deletedRange);

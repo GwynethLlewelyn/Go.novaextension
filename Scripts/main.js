@@ -108,11 +108,8 @@ class GoLanguageServer {
     var clientOptions = {
       syntaxes: ['go'],
       initializationOptions: {
-        // "hoverKind": "SingleLine", // one of these ought to do the trick
-        "hoverKind": "SingleLine",
-        // "ui.documentation.hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202)
-        // "staticcheck": true, // using staticcheck.io for further analysis (gwyneth 20210406)
-//        "ui.completion.usePlaceHolders": true,  // ...whatever this does...
+        "hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202) for the information, which somehow Nova dislikes and does not render (gwyneth 20210407)
+        "staticcheck": nova.config.get('go-nova.use-staticcheck', 'boolean'), // using staticcheck.io for further analysis (gwyneth 20210407)
         "usePlaceHolders": true  // trying out which one works (gwyneth 20210203)
       }
     };
@@ -155,11 +152,12 @@ class GoLanguageServer {
             if (editor.document.syntax === 'go') {
                 if (nova.config.get('go-nova.format-on-save', 'boolean')) {
                     console.info('Entering FormatOnSave for "' + editor.document.uri + '"...');
-                    try {                      
-                      formatFile(editor);
+                    try {
+                      // nova.commands.invoke("go.formatFile", editor); // this is how @apexskier calls the function (20210408)
+                      formatFile(editor)
                     } catch(err) {
                       console.error("Re-formatting failed miserably");
-                    }                    
+                    }
                 }
             }
         }, this);
@@ -250,7 +248,7 @@ function formatFile(editor) {
         uri: editor.document.uri
       },
       options: { // https://github.com/microsoft/language-server-protocol/blob/gh-pages/_specifications/specification-3-17.md#document-formatting-request--leftwards_arrow_with_hook (gwyneth 20210406)
-        tabSize: editor.tabLength, 
+        tabSize: editor.tabLength,
         insertSpaces: editor.softTabs != 0
       }
     };
