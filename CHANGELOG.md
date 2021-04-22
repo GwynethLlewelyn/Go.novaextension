@@ -1,3 +1,7 @@
+## Version 0.4.2
+
+- Thanks to @logan's changes on correctly implementing Markdown hover tags!
+
 ## Version 0.4.1
 
 - Added checkbox on preferences to use https://staticcheck.io/ to do additional code analysis.

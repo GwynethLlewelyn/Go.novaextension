@@ -30,7 +30,7 @@ func (u *User) Greeting() string {
 }
 
 /*
-Hey, this is a comment
+Hey, this is a comment.
 */
 // TODO(gwyneth): Change everything
 func main() {
