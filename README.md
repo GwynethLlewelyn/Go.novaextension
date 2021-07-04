@@ -18,7 +18,7 @@ Additionally, much of the more intricate and obscure issues have been solved by 
 
 - [@apexskier](https://github.com/apexskier) (Cameron Little)
 
-**Note:** v0.4.1 is still an **alpha** version with working syntax highlighting and extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued with some unstability issues, often leading to a crash. See below for some guidelines.
+**Note:** v0.4.2 is still an **alpha** version with working syntax highlighting and extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued with some unstability issues, often leading to a crash. See below for some guidelines.
 
 [@jfieber](https://github.com/jfieber) added a 'Go' menu from which some functionality can be selected; in many cases, it will attempt to do a re-formatting according to Go's best practices, as well as organise imports. This is not working 100% of the time, though (and we still don't know why).
 
@@ -36,7 +36,7 @@ If you use [Homebrew](https://brew.sh/) to install your packages, all you need i
 
 If not, you can install it as described [here](https://github.com/golang/tools/blob/master/gopls/doc/user.md#installation).
 
-Then tick the *Enable Language Server* checkbox in the Preferences for this extension. If `gopls` is (correctly) installed in your search `PATH`, the extension should find it. If it is elsewhere, set that where in the Preferences for this extension as well. Note that Nova's language server support and `gopls` are both new and evolving. Many things don't work quite right yet<sup id="a2">[2](#f2)</sup>.
+Then tick the *Enable Language Server* checkbox in the Preferences for this extension. If `gopls` is (correctly) installed in your search `PATH`, the extension should find it. If it is elsewhere, set that where in the Preferences for this extension as well. Note that Nova's language server support and `gopls` are both new and evolving. Many things may _not_ work quite right yet.
 
 When checking for syntax errors, `gopls` can optionally use https://staticcheck.io/ for additionally analysis; there is a checkbox on Preferences to allow the extra checking.
 
@@ -72,9 +72,8 @@ Suggestions and bug reports are more than welcome, but please take into account 
 
 1. Right now, the one issue that baffles me most is why the formatter is called _twice_ at the moment of saving the files to disk/cloud. This will naturally enough trash the _original_ file; so do **NOT** click on the checkbox unless, of course, you wish to help to debug this!
 2. On the other hand, the 'Go' menu (either from the top bar or by right-clicking on the text) runs the formatter and/or the imports organiser most of the time, without crashing, or garbling the file. Sometimes it does nothing; sometimes you have to select the whole range you wish to format in order to get it working. This is still a bit unpredictable, although I can't understand why it doesn't work _some_ times, while in _most_ cases, it has no issue whatsoever (even on the same, unchanged code!).
-3. Panic [recently acknowledged that there are some limitations on rendering Markdown on LSP hover tips](https://devforum.nova.app/t/lsp-tooltip-markdown-support/608/2). We're all hoping to see some upcoming release with a fix! Until then, the hover tips will be rendered in plain text instead.
-4. The extension crashes quite often, especially when in Development mode. There are no 'obvious' errors showing up on the console or the error logs, so this has been hard to track down (I suspect that there is some cleaning up that is missing). If you're plagued with these crashes, just _un_check the *Enable Language Server* checkbox on the Preferences for this extension. You will still get Go syntax highlighting, but the additional goodies provided by LSP will be turned off.
-5. There are a few hooks allowing you to *theoretically* run some post-formatting tools to comply with Google's style guidelines for Go, as well as a way to check that all imports are properly referenced, etc. With this version, there is no documentation yet for *how* to activate those extra features, but hopefully this will be addressed in the very near future... fingers crossed!
+3. The extension crashes quite often, especially when in Development mode. There are no 'obvious' errors showing up on the console or the error logs, so this has been hard to track down (I suspect that there is some cleaning up that is missing). If you're plagued with these crashes, just _un_check the *Enable Language Server* checkbox on the Preferences for this extension. You will still get Go syntax highlighting, but the additional goodies provided by LSP will be turned off.
+4. There are a few hooks allowing you to *theoretically* run some post-formatting tools to comply with Google's style guidelines for Go, as well as a way to check that all imports are properly referenced, etc. With this version, there is no documentation yet for *how* to activate those extra features, but hopefully this will be addressed in the very near future... fingers crossed!
 
 ## My GPG Fingerprint
 
@@ -87,6 +86,7 @@ In case you need it to send me encrypted emails:
 <b id="f1">1</b>&nbsp;I based that parser on the [PHP Smarty templates](https://www.smarty.net/) — Go's own template syntax is similar.[↩](#a1)
 
 <b id="f2">2</b> A notable example is that for some reason the Markdown emitted by `gopls` is not understood by the Nova editor, which is quite strange, since other LSPs (namely, @apexskier's [TypeScript Extension](https://extensions.panic.com/extensions/apexskier/apexskier.typescript/)) have no such problems.[↩](#a2)
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -105,4 +105,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+=======
