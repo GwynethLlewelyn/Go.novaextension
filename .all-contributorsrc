@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "jfieber",
+      "name": "John Fieber",
+      "avatar_url": "https://avatars.githubusercontent.com/u/113956?v=4",
+      "profile": "https://github.com/jfieber",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Go.novaextension",
+  "projectOwner": "GwynethLlewelyn",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
