@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "seripap",
+      "name": "Daniel Seripap",
+      "avatar_url": "https://avatars.githubusercontent.com/u/683200?v=4",
+      "profile": "http://daniel.seripap.com",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Go.novaextension",
+  "projectOwner": "GwynethLlewelyn",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
