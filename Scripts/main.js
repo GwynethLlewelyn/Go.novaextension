@@ -108,7 +108,8 @@ class GoLanguageServer {
     var clientOptions = {
       syntaxes: ['go'],
       initializationOptions: {
-        "hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202) for the information, which somehow Nova dislikes and does not render (gwyneth 20210407)
+//        "hoverKind": "SingleLine", // I know that "SingleLine" works — other options seem to _always_ trigger Markdown (gwyneth 20210202) for the information, which somehow Nova dislikes and does not render (gwyneth 20210407)
+        "hoverKind": "SynopsisDocumentation",  // available since Nova 6...? (gwyneth 20210422)
         "staticcheck": nova.config.get('go-nova.use-staticcheck', 'boolean'), // using staticcheck.io for further analysis (gwyneth 20210407)
         "usePlaceHolders": true  // trying out which one works (gwyneth 20210203)
       }
@@ -154,7 +155,7 @@ class GoLanguageServer {
                     console.info('Entering FormatOnSave for "' + editor.document.uri + '"...');
                     try {
                       // nova.commands.invoke("go.formatFile", editor); // this is how @apexskier calls the function (20210408)
-                      formatFile(editor)
+                      formatFile(editor);
                     } catch(err) {
                       console.error("Re-formatting failed miserably");
                     }
