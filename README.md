@@ -87,8 +87,6 @@ In case you need it to send me encrypted emails:
 
 <b id="f2">2</b> A notable example is that for some reason the Markdown emitted by `gopls` is not understood by the Nova editor, which is quite strange, since other LSPs (namely, @apexskier's [TypeScript Extension](https://extensions.panic.com/extensions/apexskier/apexskier.typescript/)) have no such problems.[↩](#a2)
 
-=======
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -98,7 +96,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/jfieber"><img src="https://avatars.githubusercontent.com/u/113956?v=4?s=100" width="100px;" alt=""/><br /><sub><b>John Fieber</b></sub></a><br /><a href="https://github.com/GwynethLlewelyn/Go.novaextension/commits?author=jfieber" title="Code">💻</a> <a href="#ideas-jfieber" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/tooolbox"><img src="https://avatars.githubusercontent.com/u/4984708?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Matt Mc</b></sub></a><br /><a href="#ideas-tooolbox" title="Ideas, Planning, & Feedback">🤔</a> <a href="#question-tooolbox" title="Answering Questions">💬</a></td>
   </tr>
 </table>
 
@@ -106,6 +104,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 =======
