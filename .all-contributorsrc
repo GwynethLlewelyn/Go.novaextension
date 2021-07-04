@@ -34,6 +34,15 @@
         "ideas",
         "doc"
       ]
+    },
+    {
+      "login": "apexskier",
+      "name": "Cameron Little",
+      "avatar_url": "https://avatars.githubusercontent.com/u/329222?v=4",
+      "profile": "https://camlittle.com",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
