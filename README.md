@@ -96,6 +96,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="http://daniel.seripap.com"><img src="https://avatars.githubusercontent.com/u/683200?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Daniel Seripap</b></sub></a><br /><a href="https://github.com/GwynethLlewelyn/Go.novaextension/commits?author=seripap" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/tooolbox"><img src="https://avatars.githubusercontent.com/u/4984708?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Matt Mc</b></sub></a><br /><a href="#ideas-tooolbox" title="Ideas, Planning, & Feedback">🤔</a> <a href="#question-tooolbox" title="Answering Questions">💬</a></td>
   </tr>
 </table>
@@ -104,7 +105,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 =======
