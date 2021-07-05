@@ -13,7 +13,7 @@ An ongoing attempt to build a Go language definition for the [Panic Nova](https:
 
 Worst case scenario: if _nothing_ here works for you, you might try to use Spicer Matthews' own [GoTools](nova://extension?id=cloudmanic.GoTools "This link will open only in Nova") extension. The syntax highlighting should be similar — and that extension should _not_ crash!
 
-# Installation
+## Installation
 
 Once activated, files ending in `*.go` should automatically be recognised (and formatted) as Go language files. Similarly, `*.tmpl` [Go template files](https://golang.google.cn/pkg/html/template/) will also be recognised<sup id="a1">[1](#f1)</sup>, and from version 0.4.0 onwards, even `go.mod` gets its own syntax highlighting.
 
@@ -33,7 +33,7 @@ When checking for syntax errors, `gopls` can optionally use https://staticcheck.
 
 More information on the capabilities of `gopls` as well as its design/implementation considerations can be found [on GitHub](https://github.com/golang/tools/blob/master/gopls/doc/design/design.md). As Nova gets better and better integration with Language Servers, and as Google also improves `gopls` to be more compliant with Microsoft's LSP definition, a lot of functionality will appear 'automagically' by simply upgrading Nova or `gopls`.
 
-# Disclaimers
+## Disclaimers
 
 I'm _still_ a bit clueless about how the syntax highlighting engine/parser actually parses the language files (although some things are starting to make more sense). There is _very little_ 'official' documentation; however, on the site for an editor made by a competitor, it looks like they have used something very similar, and — allegedly! — based on the original Coda syntax (not Coda 2!). Apparently, Nova uses a variant of the same parser 'family'.
 
@@ -57,12 +57,25 @@ In conclusion: all of the above is still very much a _work in progress_ — or r
 
 Suggestions and bug reports are more than welcome, but please take into account that I'm new to all of this, and might not be able to even _understand_ most of your issues, much less _fix_ them! But I'm learning...
 
-# Well-known bugs
+## Well-known bugs
 
-1. Right now, the one issue that baffles me most is why the formatter is called _twice_ at the moment of saving the files to disk/cloud. This will naturally enough trash the _original_ file; so do **NOT** click on the checkbox unless, of course, you wish to help to debug this!
-2. On the other hand, the 'Go' menu (either from the top bar or by right-clicking on the text) runs the formatter and/or the imports organiser most of the time, without crashing, or garbling the file. Sometimes it does nothing; sometimes you have to select the whole range you wish to format in order to get it working. This is still a bit unpredictable, although I can't understand why it doesn't work _some_ times, while in _most_ cases, it has no issue whatsoever (even on the same, unchanged code!).
-3. The extension crashes quite often, especially when in Development mode. There are no 'obvious' errors showing up on the console or the error logs, so this has been hard to track down (I suspect that there is some cleaning up that is missing). If you're plagued with these crashes, just _un_check the *Enable Language Server* checkbox on the Preferences for this extension. You will still get Go syntax highlighting, but the additional goodies provided by LSP will be turned off.
-4. There are a few hooks allowing you to *theoretically* run some post-formatting tools to comply with Google's style guidelines for Go, as well as a way to check that all imports are properly referenced, etc. With this version, there is no documentation yet for *how* to activate those extra features, but hopefully this will be addressed in the very near future... fingers crossed!
+### Syntax Checker bugs
+
+1. On function definitions, the return values are not properly formatted (not even recognised by Nova)
+2. Similarly, the `return` keyword will confuse the formatting of the ensuing expressions
+3. On function definitions, arguments such as `(a,b integer)` _will_ be correctly formatted, but they are on the completely wrong scope (compare it with writing `(a integer, b integer)` instead)
+4. Type declaration is still a work-in-progress; it's now foldable, but doesn't work correctly (getting it right is tough!)
+5. Even variable declaration is... sketchy, at best. Some instances of it work; most don't
+6. No type casting done (yet)
+7. `make` and `append` aren't done yet
+
+### Go Language Server bugs
+
+1. Right now, the one issue that baffles me most is why the imports formatter does not work properly (i.e. the equivalent functionality to `goimports` which is allegedly built-in into the `gopls` Language Server)! It still has a very serious bug when figuring out what exactly to delete and shuffle around. Don't try it out without saving your files properly!
+2. As said before, do **NOT** turn on the automatic formatting when saving! Until this issue isn't fixed, that option is essentially there only for the purpose of allowing others to do some testing. It's _not_ meant for anything else!
+3. The `Go` menu (either from the top bar or by right-clicking on the text) runs the formatter most of the time, without crashing. Sometimes it does nothing; sometimes you have to select the whole range you wish to format in order to get it working. This is still a bit unpredictable, although I can't understand why it doesn't work _some_ times, while in _most_ cases, it has no issue whatsoever (even on the same, unchanged code!).
+4. If you're plagued with extension crashes, just _un_check the *Enable Language Server* checkbox on the Preferences for this extension. You will still get Go syntax highlighting (and some auto-completion), but the additional goodies provided by LSP will be turned off.
+5. There are a few hooks allowing you to *theoretically* run some post-formatting tools to comply with Google's style guidelines for Go, as well as a way to check that all imports are properly referenced, etc. With this version, there is no documentation yet for *how* to activate those extra features, but hopefully this will be addressed in the future... eventually.
 
 ## My GPG Fingerprint
 
