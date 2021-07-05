@@ -3,6 +3,7 @@ package main
 
 import (
 	_ "errors"
+	"os"
 	"fmt"
 	myPtr "golang.org/x/net/html/atom" // hnmrs"
 )
@@ -24,15 +25,15 @@ func myFunc(a string, b string) bool {
 }
 
 // Greeting is a list of methods.
-func (u *User) Greeting() string {
+func (u *User) Greeting(what string) string {
 	var blip myPtr.Atom
-	return fmt.Sprintf("Dear %s %s %v", u.FirstName, u.LastName, blip)
+	return fmt.Sprintf("Dear %s %s %v: %s", u.FirstName, u.LastName, blip, what)
 }
 
 /*
 Hey, this is a comment.
 */
-// TODO(gwyneth): Change everything
+// TODO(gwyneth): Change everything!
 func main() {
 	// huh
 	// add a comment here
@@ -44,7 +45,7 @@ func main() {
 	var a []byte
 	t := make([]byte, 1, 2)
 	b := append(t, a[0], byte(1), 0.00, byte(0x08))
-	complexNumber := -4.0436 + 3.76e-5i // almost correctly formatted/captired
+	complexNumber := -4.0436 + 3.76e-5i // almost correctly formatted/captured by the regex
 	exponential := -3.167252381e-12
 	hex := 0x0f - 0x0f0f
 	octal := 0777
@@ -72,7 +73,7 @@ func main() {
 
 	if i > 0 && err != nil {
 		// do something
-		pointer.Greeting()
+		pointer.Greeting(os.TempDir())
 	} else {
 		// do something else somewhere
 		fmt.Println("Something else")

@@ -1,3 +1,7 @@
+## Version 0.4.3
+- Adding the @all-contributors GitHub bot to give people a bit more credit. They deserve it!
+- Edited some of the (outdated) information on the README.
+
 ## Version 0.4.2
 
 - Thanks to @logan's changes on correctly implementing Markdown hover tags!

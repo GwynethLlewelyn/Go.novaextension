@@ -7,18 +7,7 @@
 
 An ongoing attempt to build a Go language definition for the [Panic Nova](https://panic.com/nova) editor, using the Language Server Protocol (LSP) with Google's official `gopls` language server for Go.
 
-## 🙏 Thanks 🙏
-
-My personal thanks to the major contributors of this project, without whom this extension would never been working:
-
-- [@jfieber](https://github.com/jfieber) (John Fieber)
-- [@seripap](https://github.com/seripap) (Daniel Seripap)
-
-Additionally, much of the more intricate and obscure issues have been solved by shamelessly copying code from:
-
-- [@apexskier](https://github.com/apexskier) (Cameron Little)
-
-**Note:** v0.4.2 is still an **alpha** version with working syntax highlighting and extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued with some unstability issues, often leading to a crash. See below for some guidelines.
+**Note:** v0.4.3 is still an **alpha** version with working syntax highlighting and extra goodies from using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/), but it is plagued with some unstability issues, often leading to a crash. See below for some guidelines.
 
 [@jfieber](https://github.com/jfieber) added a 'Go' menu from which some functionality can be selected; in many cases, it will attempt to do a re-formatting according to Go's best practices, as well as organise imports. This is not working 100% of the time, though (and we still don't know why).
 
@@ -84,8 +73,6 @@ In case you need it to send me encrypted emails:
 ---
 
 <b id="f1">1</b>&nbsp;I based that parser on the [PHP Smarty templates](https://www.smarty.net/) — Go's own template syntax is similar.[↩](#a1)
-
-<b id="f2">2</b>&nbsp;A notable example is that for some reason the Markdown emitted by `gopls` is not understood by the Nova editor, which is quite strange, since other LSPs (namely, @apexskier's [TypeScript Extension](https://extensions.panic.com/extensions/apexskier/apexskier.typescript/)) have no such problems.[↩](#a2)
 
 ## Contributors ✨
 
