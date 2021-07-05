@@ -126,6 +126,29 @@
 	<!-- Definitions -->
 	<collection name="definitions">
 		<!-- Functions -->
+
+		<!-- Special pre-defined names for functions -->
+		<scope name="go.definition.function.pseudo-functions">
+			<symbol type="function">
+				<context behavior="subtree" foldable="false" />
+			</symbol>
+			<starts-with>
+				<expression>(func)\s+(main|init)</expression>
+				<capture number="1" name="go.keyword" />
+				<capture number="2" name="go.identifier.core.function" />
+			</starts-with>
+			<ends-with>
+				<expression>(?&lt;=\})</expression>
+			</ends-with>
+			<subscopes>
+				<cut-off>
+					<expression>(?=\b(?:func|if|else|while|for|range)\b)</expression>
+				</cut-off>
+				<include syntax="self" collection="comments" />
+				<include syntax="self" collection="function-blocks" />
+			</subscopes>
+		</scope>
+		<!-- User-defined functions (i.e. anything which is neither `main()` nor `init()` -->
 		<scope name="go.definition.function">
 			<symbol type="function">
 				<context behavior="subtree" foldable="false" />
@@ -151,24 +174,42 @@
 
 		<!-- type -->
 		<scope name="go.definition.type">
-			<expression>\b(type)\s+([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
-			<capture number="1" name="go.keyword.type" />
-			<capture number="2" name="go.definition.type.name" />
+			<symbol type="type">
+				<context behavior="subtree" foldable="false" />
+			</symbol>
+			<starts-with>
+				<expression>\b(type)\s+([a-zA-ZÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(struct)\b</expression>
+				<capture number="1" name="go.keyword.type" />
+				<capture number="2" name="go.definition.type.name" />
+				<capture number="3" name="go.keyword" />
+			</starts-with>
+			<!-- shouldn't we add the type definition here? (gwyneth 20210705) -->
+			<ends-with>
+				<expression>(?&lt;=\})</expression>
+			</ends-with>
+			<subscopes>
+				<cut-off>
+					<expression>(?=\b(?:func|if|else|while|for|range)\b)</expression>
+				</cut-off>
+				<include syntax="self" collection="comments" />
+				<include syntax="self" collection="blocks" />	<!-- not correct! quick & dirty hack (gwyneth 20210705) -->
+			</subscopes>
 		</scope>
 
 		<!-- Methods: in Go, these are connected to structs, not classes, since Go does not have classes -->
-		<scope name="go.definition.function.method">
+		<scope name="go.definition.method">
 			<symbol type="function">
 				<context behavior="subtree" foldable="false" />
 			</symbol>
 			<starts-with>
-				<expression>(func)\s+(\()([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?[A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s*(\))\s+([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
+				<expression>(func)\s+(\()([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+((\*?)[A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s*(\))\s+([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)</expression>
 				<capture number="1" name="go.keyword" />
 				<capture number="2" name="go.punctuation.bracket.round.open" />
-				<capture number="3" name="go.identifier.method.variable" />
-				<capture number="4" name="go.identifier.method.struct" />
-				<capture number="5" name="go.punctuation.bracket.round.close" />
-				<capture number="6" name="go.definition.method.name" />
+				<capture number="3" name="go.definition.method.variable" />
+				<capture number="4" name="go.operator" />
+				<capture number="5" name="go.definition.method.struct" />
+				<capture number="6" name="go.punctuation.bracket.round.close" />
+				<capture number="7" name="go.definition.method.name" />
 			</starts-with>
 			<ends-with>
 				<expression>(?&lt;=\})</expression>
@@ -205,13 +246,7 @@
 				<include syntax="self" collection="function-blocks" />
 			</subscopes>
 		</scope>
-
-		<scope name="go.definition.variable">
-			<symbol type="variable" scope="local" />
-			<expression>([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s*(:\=)</expression>
-			<capture number="1" name="go.identifier.name" />
-			<capture number="2" name="go.operator" />
-		</scope>
+		<!-- variables & constants are defined much lower on this file -->
 	</collection>
 
 	<!-- Arguments -->
@@ -239,15 +274,15 @@
 				<scope name="go.identifier.argument.rest">
 					<symbol type="argument" />
 					<expression>(\.\.\.)\b([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
-					<capture number="1" name="go.operator" />
+					<capture number="1" name="go.operator" />	<!-- ellypsis, or variadic operator -->
 					<capture number="2" name="go.identifier.type.class" />
 				</scope>
 				<scope name="go.identifier.argument">
 					<symbol type="argument" />
-					<expression>(?&lt;!\=)\b([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?)(\[\])?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
+					<expression>(?&lt;!\=)\b([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?)(\[\d*\])?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
 					<capture number="1" name="go.identifier.variable.name" />
-					<capture number="2" name="go.operator" />
-					<capture number="3" name="go.bracket" />
+					<capture number="2" name="go.operator" />	<!-- pointer to -->
+					<capture number="3" name="go.identifier.type.class.array" />
 					<capture number="4" name="go.identifier.type.class" />
 				</scope>
 				<!-- <include syntax="self" collection="values" /> Probably not allowed in Go -->
@@ -260,9 +295,10 @@
 	<collection name="return-arguments">
 		<scope name="go.arguments.return.single">
 			<symbol type="argument" />
-			<expression>[!\(]\b(\*?)\(\b\)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b[!\(]</expression>
+			<expression>[!\(]\b(\*?)(\[\d*\])([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b[!\(]</expression>
 			<capture number="1" name="go.operator" />
-			<capture number="2" name="types" />
+			<capture number="2" name="go.argument.return.array" />
+			<capture number="3" name="go.argument.return.type" />
 		</scope>
 		<scope name="go.arguments.return.multiple">
 			<starts-with>
@@ -284,9 +320,11 @@
 				</scope>
 				<scope name="go.identifier.argument.return.name">
 					<symbol type="type" />
-					<expression>(?&lt;!\=)\b(\*?)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
-					<capture number="1" name="go.operator" />
-					<capture number="2" name="types" />
+					<expression>(?&lt;!\=)\b([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?)(\[\d*\])([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
+					<capture number="1" name="go.argument.return.variable.name" />
+					<capture number="2" name="go.operator" />
+					<capture number="3" name="go.argument.return.type.array" />
+					<capture number="4" name="go.argument.return.type" />
 				</scope>
 				<include syntax="self" collection="values" />
 				<include syntax="self" collection="syntax" />
@@ -382,10 +420,10 @@
 				<capture number="6" name="go.operator" /> <!-- Mandatory plus sign -->
 				<capture number="8" name="go.value.number.float.real" /> <!-- Imaginary part -->
 				<capture number="10" name="go.value.number.float.exponential" /> <!-- Real part -->
-				<capture number="11" name="go.identifier" /> <!-- The letter i (first alternative) -->
+				<capture number="11" name="go.keyword.operator" /> <!-- The letter i (first alternative) -->
 				<capture number="12" name="go.operator" /> <!-- Plus or minus sign (second alternative-->
 				<capture number="14" name="go.value.number.float.real" /> <!-- Imaginary part (second alternative) -->
-				<capture number="17" name="go.identifier" /> <!-- The letter i (second alternative) -->
+				<capture number="17" name="go.keyword.operator" /> <!-- The letter i (second alternative) -->
 		</scope>
 		<scope name="go.value.number.float">
 			<!--Equivalent: .0001, 0.0001, 1e-4, 1.0e-4-->
@@ -495,9 +533,10 @@
 		</scope>
 		<scope name="go.identifier.type" spell-check="false">
 			<symbol type="type" />
-			<expression>\b\s+(\*?)([A-Za-zÀ-ÖØ-öø-ÿ_\[\]][A-Za-zÀ-ÖØ-öø-ÿ0-9_\.\[\]]*)</expression>
+			<expression>\b\s+(\*?)(\[\d*\])?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_\.]*)</expression>
 				<capture number="1" name="go.operator" />
-				<capture number="2" name="go.identifier.type.name" />
+				<capture number="2" name="go.identifier.type.array" />
+				<capture number="3" name="go.identifier.type.name" />
 		</scope>
 	</collection>
 
@@ -645,7 +684,7 @@
 			<symbol type="method" />
 			<expression>(\.)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)(?=\()\b</expression>
 			<capture number="1" name="go.punctuation.delimiter.period" />
-			<capture number="2" name="go.identifier.function" />
+			<capture number="2" name="go.identifier.method.name" />
 		</scope>
 		<scope name="go.identifier.function">
 			<symbol type="function" />
@@ -697,10 +736,10 @@
 			<capture number="2" name="go.punctuation.bracket.round.close" />
 			<capture number="3" name="go.punctuation.delimiter.comma" />
 		</scope>
-		<scope name="go.punctuation.questionmark">
+		<scope name="go.punctuation.delimiter.questionmark">
 			<expression>\?</expression>
 		</scope>
-		<scope name="go.punctuation.statement.terminator">
+		<scope name="go.punctuation.statement.delimiter.terminator">
 			<expression>\;</expression>
 		</scope>
 	</collection>
@@ -719,7 +758,7 @@
 			<capture number="5" name="go.punctuation.bracket.square.close" />
 			<capture number="6" name="go.punctuation.delimiter.comma" />
 		</scope>
-		<scope name="go.punctuation.colon">
+		<scope name="go.punctuation.delimiter.colon">
 			<expression>:</expression>
 		</scope>
 	</collection>
@@ -738,7 +777,7 @@
 		<!-- The var/const keywords are included to allow the itemizers to be drag and dropped with predictable results -->
 		<scope>
 			<symbol type="variable" scope="local" />
-			<expression>((?:(var)\s+)?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)\s*(:?=))(?!=)</expression>
+			<expression>((?:(var)\s+)?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)\s*(:?\=))(?!=)</expression>
 			<capture number="1" name="go.variable.x-assignment" />
 			<capture number="2" name="go.keyword.storage.type" />
 			<capture number="3" name="go.variable.name" />
@@ -746,14 +785,14 @@
 		</scope>
 		<scope>
 			<symbol type="constant" scope="local" />
-			<expression>((?:(const)\s+)?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)\s*(:?=))(?!=)</expression>
+			<expression>((?:(const)\s+)?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)\s*(:?\=))(?!=)</expression>
 			<capture number="1" name="go.constant.x-assignment" />
 			<capture number="2" name="go.keyword.storage.type" />
 			<capture number="3" name="go.constant.name" />
 			<capture number="4" name="go.operator.assignment" />
 		</scope>
 		<scope>
-			<expression>(([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$.]+)\s*(:?=))(?!=)</expression>
+			<expression>(([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$.]+)\s*(:?\=))(?!\=)</expression>
 			<capture number="1" name="go.variable.x-assignment" />
 			<capture number="2" name="go.accessor-path.name">
 				<subscopes>
@@ -766,9 +805,9 @@
 		<scope>
 			<symbol type="function" />
 			<expression>(\.)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)\s*(\()</expression>
-			<capture number="1" name="punctuation.delimiter.period" />
-			<capture number="2" name="go.variable.function.method" />
-			<capture number="3" name="punctuation.bracket.round.open" />
+			<capture number="1" name="go.punctuation.delimiter.period" />
+			<capture number="2" name="go.variable.method.name" />
+			<capture number="3" name="go.punctuation.bracket.round.open" />
 		</scope>
 		<!-- Var keyword; included here instead of keywords collection so that it doesn't conflict with variable assignment definitions -->
 		<!-- (gwyneth 20200810) The same applies to the Const keyword as well, and needs the possibility of multiple declaration e.g. var (a int, b string) etc. -->
@@ -778,11 +817,11 @@
 			<include syntax="self" collection="comments" />
 			<starts-with>
 				<expression>\(</expression>
-				<capture number="0" name="punctuation.bracket.round.open" />
+				<capture number="0" name="go.punctuation.bracket.round.open" />
 			</starts-with>
 			<ends-with>
 				<expression>\)</expression>
-				<capture number="0" name="punctuation.bracket.round.close" />
+				<capture number="0" name="go.punctuation.bracket.round.close" />
 			</ends-with>
 			<subscopes>
 				<cut-off>
@@ -793,12 +832,21 @@
 					<expression>,</expression>
 					<capture number="0" name="go.operator" />
 				</scope>
-				<scope name="go.variable">
-					<symbol type="variable" />
-					<expression>(?&lt;!\=)\b([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?)([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
-					<capture number="1" name="go.variable.name" />
-					<capture number="2" name="go.operator" />
-					<capture number="3" name="go.variable.types" />
+				<scope name="go.definition.variable.local">
+					<symbol type="variable" scope="local" />
+					<expression>(?&lt;!\=)\b([a-zØ-ö_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?)(\[\d*\])?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
+					<capture number="1" name="go.identifier.variable.name" />
+					<capture number="2" name="go.operator" />	<!-- pointer to -->
+					<capture number="3" name="go.identifier.type.class.array" />
+					<capture number="4" name="go.identifier.type.class" />
+				</scope>
+				<scope name="go.definition.variable.global">	<!-- the difference is only on capitalisation -->
+					<symbol type="variable" scope="global" />
+					<expression>(?&lt;!\=)\b([A-ZÀ-ÖØ-ö_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\s+(\*?)(\[\d*\])?([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_]*)\b</expression>
+					<capture number="1" name="go.identifier.variable.name" />
+					<capture number="2" name="go.operator" />	<!-- pointer to -->
+					<capture number="3" name="go.identifier.type.class.array" />
+					<capture number="4" name="go.identifier.type.class" />
 				</scope>
 				<!-- <include syntax="self" collection="values" /> Probably not allowed in Go -->
 				<include syntax="self" collection="syntax" />
@@ -807,15 +855,17 @@
 		<!-- This MUST come before var/const, or else, "var/const" are taken for the variable *name*
 			which is NOT what we want! (gwyneth 20210405) -->
 		<scope>
+			<!-- This is, I think, the call of a function that has been assigned via a variable,
+				which we tag here as such (gwyneth 20210705) -->
 			<symbol type="variable" scope="local" />
 			<expression>([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)\s*(\()</expression>
 			<capture number="1" name="go.variable.function" />
-			<capture number="2" name="punctuation.bracket.round.open" />
+			<capture number="2" name="go.punctuation.bracket.round.open" />
 		</scope>
 		<scope>
 			<!-- anything else that remotely looks like a variable will be captured here (gwyneth 20210406) -->
 			<expression>([A-Za-zÀ-ÖØ-öø-ÿ_][A-Za-zÀ-ÖØ-öø-ÿ0-9_][\w$]*)</expression>
-			<capture number="0" name="variable" />
+			<capture number="0" name="go.variable.name" />
 		</scope>
 	</collection>
 </collections>
