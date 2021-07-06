@@ -8,6 +8,7 @@
   "bugs": "https://github.com/GwynethLlewelyn/Go.novaextension/issues",
   "repository": "https://github.com/GwynethLlewelyn/Go.novaextension",
   "homepage": "https://gwynethllewelyn.net",
+  "funding": "https://www.paypal.com/paypalme/gwynethllewelyn",
   "keywords": ["go", "golang"],
   "license": "MIT",
   "categories": ["completions", "languages"],

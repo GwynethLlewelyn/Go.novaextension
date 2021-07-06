@@ -1,6 +1,11 @@
 ## Version 0.4.3
+- Several new improvements on syntax checking; a lot more is being correctly highlighted (but there is even more that isn't; see [README.md](README.md)).
 - Adding the @all-contributors GitHub bot to give people a bit more credit. They deserve it!
 - Edited some of the (outdated) information on the README.
+- Added a special class on my sister project, the Nord theme extension, to provide highlighting for delimiters.
+- More crazy tests on `basictest.go` to catch common syntax highlighting errors (there are many).
+- Added a funding button, let's see if it works!
+- TODO(gwyneth): Try to understand why the imports aren't properly formatted by `gopls`, even if the rest is...
 
 ## Version 0.4.2
 
