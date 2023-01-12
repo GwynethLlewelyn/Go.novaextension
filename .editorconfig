@@ -1,0 +1,27 @@
+# +--------------------+
+# + Base Configuration +
+# +--------------------+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = tab
+indent_style = tab
+tab_width = 4
+insert_final_newline = true
+max_line_length = 160
+trim_trailing_whitespace = true
+
+# +-----------+
+# + Languages +
+# +-----------+
+# +--- Markdown ---+
+[*.{md,gfm}]
+max_line_length = 108
+word_wrap = true
+# Markdown sometimes uses two spaces at the end to
+#  mark soft line breaks
+trim_trailing_whitespace = false
+
+[*.css]
+indent_style = space
+indent_size = 2
